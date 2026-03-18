@@ -1,0 +1,2133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A New Biriyani Story | Cloud Kitchen · Tirupati</title>
+  <meta name="description" content="A New Biriyani Story – Authentic Indian flavours, consistent every single time. Cloud Kitchen in Tirupati. Free delivery. Order on WhatsApp.">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Noto+Serif+Telugu:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ═══════════════════════════════════════════
+       DESIGN TOKENS
+    ═══════════════════════════════════════════ */
+    :root {
+      --saffron:   #E8780A;
+      --gold:      #D4AF37;
+      --crimson:   #8B1A1A;
+      --ember:     #C0392B;
+      --cream:     #FFF8E7;
+      --ivory:     #FAF3E0;
+      --dark:      #0F0A05;
+      --charcoal:  #1C1208;
+      --smoke:     #2A1F10;
+      --muted:     #7A6A50;
+      --white:     #FFFFFF;
+      --font-head: 'Cinzel Decorative', serif;
+      --font-sub:  'Cinzel', serif;
+      --font-body: 'Lora', serif;
+      --font-tel:  'Noto Serif Telugu', serif;
+      --glow-saffron: 0 0 40px rgba(232,120,10,0.5);
+      --glow-gold:    0 0 30px rgba(212,175,55,0.4);
+    }
+
+    /* ═══════════════════════════════════════════
+       RESET & BASE
+    ═══════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: var(--font-body);
+      background: var(--dark);
+      color: var(--cream);
+      overflow-x: hidden;
+      cursor: default;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+
+    /* ═══════════════════════════════════════════
+       PRELOADER
+    ═══════════════════════════════════════════ */
+    #preloader {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--dark);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    #preloader.hidden { opacity: 0; visibility: hidden; }
+    .loader-pot {
+      width: 80px; height: 80px;
+      position: relative; margin-bottom: 24px;
+    }
+    .loader-pot svg { width: 100%; height: 100%; animation: potBounce 1.2s ease-in-out infinite; }
+    @keyframes potBounce {
+      0%,100% { transform: translateY(0) rotate(-3deg); }
+      50% { transform: translateY(-12px) rotate(3deg); }
+    }
+    .steam-line {
+      position: absolute; top: -18px;
+      width: 4px; border-radius: 4px;
+      background: linear-gradient(to top, var(--saffron), transparent);
+      animation: steamRise 1.2s ease-in-out infinite;
+    }
+    .steam-line:nth-child(1) { left: 22px; height: 16px; animation-delay: 0s; }
+    .steam-line:nth-child(2) { left: 38px; height: 22px; animation-delay: 0.2s; }
+    .steam-line:nth-child(3) { left: 54px; height: 14px; animation-delay: 0.4s; }
+    @keyframes steamRise {
+      0% { opacity: 0; transform: translateY(0) scaleX(1); }
+      50% { opacity: 1; }
+      100% { opacity: 0; transform: translateY(-20px) scaleX(0.5); }
+    }
+    .loader-text {
+      font-family: var(--font-sub); font-size: 0.8rem; letter-spacing: 4px;
+      color: var(--gold); text-transform: uppercase;
+      animation: pulse 1.2s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+    /* ═══════════════════════════════════════════
+       CUSTOM CURSOR
+    ═══════════════════════════════════════════ */
+    .cursor-dot {
+      width: 8px; height: 8px;
+      background: var(--saffron);
+      border-radius: 50%;
+      position: fixed; pointer-events: none; z-index: 9000;
+      transform: translate(-50%,-50%);
+      transition: transform 0.1s ease;
+    }
+    .cursor-ring {
+      width: 36px; height: 36px;
+      border: 2px solid var(--gold);
+      border-radius: 50%;
+      position: fixed; pointer-events: none; z-index: 8999;
+      transform: translate(-50%,-50%);
+      transition: transform 0.15s ease, width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
+      opacity: 0.6;
+    }
+
+    /* ═══════════════════════════════════════════
+       FLOATING SPICE PARTICLES (CANVAS)
+    ═══════════════════════════════════════════ */
+    #spiceCanvas {
+      position: fixed; inset: 0;
+      z-index: 0; pointer-events: none;
+      opacity: 0.35;
+    }
+
+    /* ═══════════════════════════════════════════
+       NAVIGATION
+    ═══════════════════════════════════════════ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 0 5%;
+      height: 70px;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background 0.4s ease, box-shadow 0.4s ease;
+    }
+    nav.scrolled {
+      background: rgba(15,10,5,0.92);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 1px 0 rgba(212,175,55,0.2);
+    }
+    .nav-logo {
+      font-family: var(--font-head); font-size: 1rem;
+      color: var(--gold); letter-spacing: 1px;
+      line-height: 1.1;
+    }
+    .nav-logo span { color: var(--saffron); display: block; font-size: 0.65rem; letter-spacing: 3px; font-family: var(--font-sub); }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a {
+      font-family: var(--font-sub); font-size: 0.75rem;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--cream); opacity: 0.8;
+      transition: color 0.2s, opacity 0.2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+      height: 1px; background: var(--saffron);
+      transform: scaleX(0); transition: transform 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--gold); opacity: 1; }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-cta {
+      background: linear-gradient(135deg, var(--saffron), #C0670A);
+      color: var(--white) !important; opacity: 1 !important;
+      padding: 8px 20px; border-radius: 30px;
+      font-family: var(--font-sub);
+      box-shadow: 0 4px 20px rgba(232,120,10,0.4);
+      transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+    }
+    .nav-cta:hover { transform: translateY(-2px) !important; box-shadow: 0 8px 30px rgba(232,120,10,0.6) !important; }
+    .nav-cta::after { display: none !important; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { width: 26px; height: 2px; background: var(--cream); transition: all 0.3s; }
+
+    /* ═══════════════════════════════════════════
+       HERO SECTION
+    ═══════════════════════════════════════════ */
+    #hero {
+      min-height: 100vh; position: relative;
+      display: flex; align-items: center;
+      overflow: hidden; z-index: 1;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 60% 50%, rgba(140,40,0,0.35) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 80% at 10% 80%, rgba(212,175,55,0.1) 0%, transparent 60%),
+        var(--dark);
+    }
+    .hero-img-wrap {
+      position: absolute; right: -2%; top: 0; bottom: 0;
+      width: 52%; perspective: 1000px;
+    }
+    .hero-img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      clip-path: polygon(12% 0%, 100% 0%, 100% 100%, 0% 100%);
+      filter: brightness(0.6) saturate(1.3);
+      transform-style: preserve-3d;
+      transform: rotateY(0deg);
+      transition: transform 0.1s ease;
+    }
+    .hero-img-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, var(--dark) 0%, rgba(15,10,5,0.7) 30%, transparent 70%);
+      clip-path: polygon(12% 0%, 100% 0%, 100% 100%, 0% 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 120px 5% 80px;
+      max-width: 700px;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(212,175,55,0.12);
+      border: 1px solid rgba(212,175,55,0.3);
+      border-radius: 30px; padding: 6px 16px;
+      font-family: var(--font-sub); font-size: 0.7rem;
+      letter-spacing: 3px; text-transform: uppercase; color: var(--gold);
+      margin-bottom: 28px;
+      animation: fadeInUp 0.8s ease both;
+    }
+    .hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--saffron); animation: pulse 1.2s infinite; }
+    .hero-title {
+      font-family: var(--font-head);
+      line-height: 1.05; margin-bottom: 8px;
+      animation: fadeInUp 0.8s 0.1s ease both;
+    }
+    .hero-title .line1 { font-size: clamp(1.4rem, 3.5vw, 2.6rem); color: var(--cream); }
+    .hero-title .line2 {
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      background: linear-gradient(135deg, var(--gold) 0%, var(--saffron) 60%, #FF4500 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      filter: drop-shadow(0 0 30px rgba(232,120,10,0.5));
+    }
+    .hero-title .line3 { font-size: clamp(1.2rem, 3vw, 2.2rem); color: var(--cream); opacity: 0.8; }
+    .hero-tel {
+      font-family: var(--font-tel); font-size: clamp(1rem, 2.5vw, 1.5rem);
+      color: var(--saffron); margin: 12px 0 20px;
+      animation: fadeInUp 0.8s 0.2s ease both;
+    }
+    .hero-desc {
+      font-size: 1.05rem; line-height: 1.8; color: rgba(255,248,231,0.75);
+      max-width: 520px; margin-bottom: 36px;
+      animation: fadeInUp 0.8s 0.3s ease both;
+    }
+    .hero-actions {
+      display: flex; flex-wrap: wrap; gap: 16px;
+      animation: fadeInUp 0.8s 0.4s ease both;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, #25D366, #1DA851);
+      color: white; font-family: var(--font-sub);
+      font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase;
+      padding: 15px 32px; border-radius: 50px;
+      box-shadow: 0 6px 30px rgba(37,211,102,0.4);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: none; cursor: pointer;
+    }
+    .btn-primary:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 12px 40px rgba(37,211,102,0.5); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: transparent;
+      color: var(--gold); font-family: var(--font-sub);
+      font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase;
+      padding: 14px 30px; border-radius: 50px;
+      border: 1px solid rgba(212,175,55,0.4);
+      transition: all 0.3s ease; cursor: pointer;
+    }
+    .btn-secondary:hover { background: rgba(212,175,55,0.1); border-color: var(--gold); transform: translateY(-2px); }
+    .hero-scroll {
+      position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      z-index: 2;
+    }
+    .scroll-label { font-family: var(--font-sub); font-size: 0.65rem; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; }
+    .scroll-arrow { width: 30px; height: 30px; border: 1px solid rgba(212,175,55,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; animation: scrollBounce 1.5s ease-in-out infinite; }
+    @keyframes scrollBounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+    /* Floating elements in hero */
+    .hero-float {
+      position: absolute; z-index: 1;
+      pointer-events: none;
+      font-size: 2rem;
+      animation: floatAround 6s ease-in-out infinite;
+      filter: drop-shadow(0 0 10px rgba(232,120,10,0.6));
+    }
+    .hero-float:nth-child(1) { right: 8%; top: 20%; animation-duration: 5s; animation-delay: 0s; }
+    .hero-float:nth-child(2) { right: 18%; top: 70%; animation-duration: 7s; animation-delay: 1s; }
+    .hero-float:nth-child(3) { right: 40%; top: 15%; animation-duration: 6s; animation-delay: 2s; }
+    .hero-float:nth-child(4) { right: 50%; top: 80%; animation-duration: 5.5s; animation-delay: 0.5s; }
+    @keyframes floatAround {
+      0%,100% { transform: translateY(0) rotate(0deg); }
+      33% { transform: translateY(-20px) rotate(10deg); }
+      66% { transform: translateY(10px) rotate(-5deg); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ═══════════════════════════════════════════
+       MARQUEE BANNER
+    ═══════════════════════════════════════════ */
+    .marquee-wrap {
+      background: linear-gradient(90deg, var(--saffron), var(--gold), var(--saffron));
+      padding: 14px 0; overflow: hidden;
+      position: relative; z-index: 2;
+    }
+    .marquee-track {
+      display: flex; gap: 0; white-space: nowrap;
+      animation: marqueeScroll 22s linear infinite;
+    }
+    .marquee-item {
+      font-family: var(--font-sub); font-size: 0.8rem;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--dark); padding: 0 40px;
+    }
+    .marquee-dot { color: var(--dark); opacity: 0.5; }
+    @keyframes marqueeScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ═══════════════════════════════════════════
+       SECTION COMMONS
+    ═══════════════════════════════════════════ */
+    section { position: relative; z-index: 1; }
+    .section-pad { padding: 100px 5%; }
+    .section-tag {
+      display: inline-block;
+      font-family: var(--font-sub); font-size: 0.7rem; letter-spacing: 4px;
+      text-transform: uppercase; color: var(--saffron);
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: var(--font-head);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: var(--cream);
+      line-height: 1.1; margin-bottom: 20px;
+    }
+    .section-title span {
+      background: linear-gradient(135deg, var(--gold), var(--saffron));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .section-divider {
+      width: 60px; height: 3px;
+      background: linear-gradient(90deg, var(--saffron), var(--gold));
+      border-radius: 2px; margin: 20px 0 40px;
+    }
+
+    /* Reveal on scroll */
+    .reveal {
+      opacity: 0; transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right { opacity: 0; transform: translateX(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+    /* ═══════════════════════════════════════════
+       USP PILLS ROW
+    ═══════════════════════════════════════════ */
+    .usp-row {
+      display: flex; flex-wrap: wrap; gap: 16px;
+      padding: 32px 5%; justify-content: center;
+      background: linear-gradient(180deg, var(--dark) 0%, var(--charcoal) 100%);
+      position: relative; z-index: 2;
+    }
+    .usp-pill {
+      display: flex; align-items: center; gap: 12px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(212,175,55,0.2);
+      border-radius: 50px; padding: 12px 24px;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+    .usp-pill:hover { border-color: var(--gold); background: rgba(212,175,55,0.08); transform: translateY(-3px); }
+    .usp-icon { font-size: 1.4rem; }
+    .usp-text { font-family: var(--font-sub); font-size: 0.75rem; letter-spacing: 1px; color: var(--cream); }
+    .usp-text strong { color: var(--gold); display: block; font-size: 0.9rem; }
+
+    /* ═══════════════════════════════════════════
+       STORY SECTION
+    ═══════════════════════════════════════════ */
+    #story {
+      background: var(--charcoal);
+    }
+    .story-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: center;
+    }
+    .story-img-frame {
+      position: relative; perspective: 800px;
+    }
+    .story-img-inner {
+      position: relative; border-radius: 4px;
+      transform: rotateY(-5deg) rotateX(3deg);
+      transform-style: preserve-3d;
+      transition: transform 0.4s ease;
+    }
+    .story-img-frame:hover .story-img-inner { transform: rotateY(0deg) rotateX(0deg); }
+    .story-img-main {
+      width: 100%; height: 420px;
+      object-fit: cover; border-radius: 4px;
+      filter: saturate(1.2) brightness(0.85);
+    }
+    .story-img-badge {
+      position: absolute; bottom: -24px; right: -24px;
+      width: 120px; height: 120px;
+      background: linear-gradient(135deg, var(--saffron), var(--gold));
+      border-radius: 50%; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      box-shadow: 0 10px 40px rgba(232,120,10,0.5);
+      animation: rotateBadge 12s linear infinite;
+    }
+    .story-img-badge svg { width: 100%; height: 100%; position: absolute; top: 0; left: 0; }
+    .story-img-badge-inner { z-index: 1; text-align: center; font-family: var(--font-sub); font-size: 0.65rem; letter-spacing: 1px; color: var(--dark); line-height: 1.3; font-weight: 700; }
+    @keyframes rotateBadge { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .story-img-corner {
+      position: absolute; top: -16px; left: -16px;
+      width: 80px; height: 80px;
+      border-top: 3px solid var(--gold); border-left: 3px solid var(--gold);
+      border-radius: 4px 0 0 0;
+    }
+    .story-text { }
+    .story-quote {
+      font-family: var(--font-body); font-style: italic;
+      font-size: 1.25rem; line-height: 1.8; color: var(--cream);
+      margin-bottom: 24px;
+      padding-left: 24px;
+      border-left: 3px solid var(--saffron);
+    }
+    .story-body {
+      font-size: 1rem; line-height: 1.85; color: rgba(255,248,231,0.7);
+      margin-bottom: 24px;
+    }
+    .story-milestones {
+      display: flex; gap: 32px; flex-wrap: wrap; margin-top: 36px;
+    }
+    .milestone {
+      text-align: center;
+    }
+    .milestone-num {
+      font-family: var(--font-head); font-size: 2.5rem;
+      background: linear-gradient(135deg, var(--gold), var(--saffron));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .milestone-label {
+      font-family: var(--font-sub); font-size: 0.65rem;
+      letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
+    }
+
+    /* ═══════════════════════════════════════════
+       ALERT BANNER
+    ═══════════════════════════════════════════ */
+    .alert-banner {
+      margin: 0 5% 0;
+      background: linear-gradient(135deg, rgba(139,26,26,0.3), rgba(232,120,10,0.2));
+      border: 1px solid rgba(232,120,10,0.4);
+      border-radius: 12px; padding: 20px 32px;
+      display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+    }
+    .alert-icon { font-size: 2rem; }
+    .alert-text h4 { font-family: var(--font-sub); font-size: 1rem; color: var(--saffron); letter-spacing: 1px; margin-bottom: 4px; }
+    .alert-text p { font-size: 0.9rem; color: rgba(255,248,231,0.7); }
+    .alert-text strong { color: var(--gold); }
+
+    /* ═══════════════════════════════════════════
+       MENU SECTION
+    ═══════════════════════════════════════════ */
+    #menu { background: var(--dark); }
+    .menu-header { text-align: center; margin-bottom: 16px; }
+    .menu-filters {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      justify-content: center; margin-bottom: 50px;
+    }
+    .filter-btn {
+      font-family: var(--font-sub); font-size: 0.7rem; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--muted);
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 30px; padding: 8px 20px; cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: linear-gradient(135deg, var(--saffron), var(--gold));
+      color: var(--dark); border-color: transparent;
+    }
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 28px;
+    }
+    /* 3D CARD */
+    .menu-card {
+      perspective: 1000px;
+      height: 420px;
+      cursor: pointer;
+    }
+    .card-inner {
+      position: relative; width: 100%; height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+      border-radius: 16px;
+    }
+    .menu-card:hover .card-inner {
+      transform: rotateY(180deg);
+      box-shadow: 0 30px 80px rgba(232,120,10,0.3);
+    }
+    .card-face {
+      position: absolute; inset: 0;
+      backface-visibility: hidden;
+      border-radius: 16px; overflow: hidden;
+    }
+    .card-front {
+      background: var(--smoke);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .card-back {
+      transform: rotateY(180deg);
+      background: linear-gradient(135deg, var(--smoke), #1A0F00);
+      border: 1px solid rgba(212,175,55,0.3);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 32px; text-align: center;
+    }
+    .card-img {
+      width: 100%; height: 220px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .card-front:hover .card-img { transform: scale(1.05); }
+    .card-body { padding: 20px; }
+    .card-tel { font-family: var(--font-tel); font-size: 0.85rem; color: var(--saffron); margin-bottom: 4px; }
+    .card-name { font-family: var(--font-sub); font-size: 1.1rem; color: var(--cream); margin-bottom: 6px; }
+    .card-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
+    .card-footer { display: flex; align-items: center; justify-content: space-between; }
+    .card-price { font-family: var(--font-head); font-size: 1.3rem; color: var(--gold); }
+    .card-tag {
+      font-family: var(--font-sub); font-size: 0.6rem; letter-spacing: 2px;
+      background: rgba(232,120,10,0.15); color: var(--saffron);
+      border: 1px solid rgba(232,120,10,0.3); border-radius: 20px;
+      padding: 3px 10px;
+    }
+    /* Card Back */
+    .back-name { font-family: var(--font-head); font-size: 1.2rem; color: var(--gold); margin-bottom: 8px; }
+    .back-tel { font-family: var(--font-tel); font-size: 1rem; color: var(--saffron); margin-bottom: 16px; }
+    .back-desc { font-size: 0.9rem; line-height: 1.7; color: rgba(255,248,231,0.7); margin-bottom: 24px; }
+    .back-price { font-family: var(--font-head); font-size: 2rem; color: var(--gold); margin-bottom: 24px; }
+    .btn-order-wa {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, #25D366, #1DA851);
+      color: white; font-family: var(--font-sub);
+      font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;
+      padding: 12px 28px; border-radius: 50px;
+      border: none; cursor: pointer; text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 6px 20px rgba(37,211,102,0.3);
+    }
+    .btn-order-wa:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(37,211,102,0.5); }
+
+    /* ═══════════════════════════════════════════
+       FREE DELIVERY BADGE
+    ═══════════════════════════════════════════ */
+    .delivery-band {
+      background: linear-gradient(135deg, #0a3d1f, #0d5928);
+      border-top: 1px solid rgba(37,211,102,0.3);
+      border-bottom: 1px solid rgba(37,211,102,0.3);
+      padding: 28px 5%;
+      display: flex; align-items: center; justify-content: center; gap: 20px;
+      flex-wrap: wrap; text-align: center;
+    }
+    .delivery-icon { font-size: 2.5rem; }
+    .delivery-text h3 { font-family: var(--font-head); font-size: 1.5rem; color: #25D366; }
+    .delivery-text p { font-size: 0.9rem; color: rgba(255,255,255,0.7); margin-top: 4px; }
+    .delivery-text p strong { color: white; }
+
+    /* ═══════════════════════════════════════════
+       VIDEO SECTION
+    ═══════════════════════════════════════════ */
+    #videos { background: var(--charcoal); }
+    .video-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px; margin-top: 20px;
+    }
+    .video-card {
+      background: var(--smoke);
+      border-radius: 12px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .video-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(232,120,10,0.2); }
+    .video-frame {
+      position: relative; padding-bottom: 56.25%; /* 16:9 */
+      height: 0; overflow: hidden;
+    }
+    .video-frame iframe {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%; border: none;
+    }
+    .video-placeholder {
+      width: 100%; height: 200px;
+      background: linear-gradient(135deg, var(--smoke), #1A1005);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+      cursor: pointer;
+    }
+    .video-placeholder .play-btn {
+      width: 60px; height: 60px;
+      background: linear-gradient(135deg, var(--saffron), var(--gold));
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 30px rgba(232,120,10,0.5);
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    .video-label { padding: 16px; font-family: var(--font-sub); font-size: 0.85rem; color: var(--cream); letter-spacing: 1px; }
+
+    /* ═══════════════════════════════════════════
+       WHY US
+    ═══════════════════════════════════════════ */
+    #why { background: var(--dark); }
+    .why-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 24px;
+    }
+    .why-card {
+      background: linear-gradient(135deg, var(--smoke), var(--charcoal));
+      border: 1px solid rgba(212,175,55,0.12);
+      border-radius: 16px; padding: 36px 28px;
+      text-align: center;
+      transition: all 0.3s ease;
+      position: relative; overflow: hidden;
+    }
+    .why-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--saffron), transparent);
+      transform: scaleX(0); transition: transform 0.4s ease;
+    }
+    .why-card:hover { transform: translateY(-8px); border-color: rgba(212,175,55,0.3); box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+    .why-card:hover::before { transform: scaleX(1); }
+    .why-icon { font-size: 2.5rem; margin-bottom: 16px; }
+    .why-title { font-family: var(--font-sub); font-size: 1rem; color: var(--gold); letter-spacing: 1px; margin-bottom: 10px; }
+    .why-desc { font-size: 0.88rem; line-height: 1.7; color: var(--muted); }
+
+    /* ═══════════════════════════════════════════
+       ORDER CTA SECTION
+    ═══════════════════════════════════════════ */
+    #order-cta {
+      background:
+        linear-gradient(135deg, rgba(139,26,26,0.4), rgba(232,120,10,0.2)),
+        var(--charcoal);
+      text-align: center; padding: 80px 5%;
+    }
+    .cta-title { font-family: var(--font-head); font-size: clamp(2rem, 5vw, 3.5rem); color: var(--cream); margin-bottom: 16px; }
+    .cta-sub { font-size: 1.1rem; color: rgba(255,248,231,0.7); margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto; }
+    .cta-wa-big {
+      display: inline-flex; align-items: center; gap: 14px;
+      background: linear-gradient(135deg, #25D366, #1DA851);
+      color: white; font-family: var(--font-head);
+      font-size: 1.1rem;
+      padding: 20px 48px; border-radius: 60px;
+      box-shadow: 0 10px 40px rgba(37,211,102,0.4), 0 0 0 0 rgba(37,211,102,0.4);
+      animation: waRipple 2s infinite;
+      transition: transform 0.3s ease;
+    }
+    .cta-wa-big:hover { transform: scale(1.05); }
+    @keyframes waRipple {
+      0% { box-shadow: 0 10px 40px rgba(37,211,102,0.4), 0 0 0 0 rgba(37,211,102,0.3); }
+      70% { box-shadow: 0 10px 40px rgba(37,211,102,0.4), 0 0 0 20px rgba(37,211,102,0); }
+      100% { box-shadow: 0 10px 40px rgba(37,211,102,0.4), 0 0 0 0 rgba(37,211,102,0); }
+    }
+    .cta-note { margin-top: 20px; font-size: 0.85rem; color: var(--muted); }
+    .cta-note strong { color: var(--saffron); }
+
+    /* ═══════════════════════════════════════════
+       CONTACT / LOCATION
+    ═══════════════════════════════════════════ */
+    #contact { background: var(--charcoal); }
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: start;
+    }
+    .contact-info h3 {
+      font-family: var(--font-sub); font-size: 1.4rem; color: var(--gold);
+      margin-bottom: 24px;
+    }
+    .info-item {
+      display: flex; gap: 16px; align-items: flex-start;
+      margin-bottom: 24px;
+    }
+    .info-icon {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(232,120,10,0.15);
+      border: 1px solid rgba(232,120,10,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; flex-shrink: 0;
+    }
+    .info-text h4 { font-family: var(--font-sub); font-size: 0.85rem; color: var(--gold); letter-spacing: 1px; margin-bottom: 4px; }
+    .info-text p { font-size: 0.9rem; color: rgba(255,248,231,0.65); line-height: 1.6; }
+    .info-text a { color: var(--saffron); transition: color 0.2s; }
+    .info-text a:hover { color: var(--gold); }
+
+    /* Social Links */
+    .social-links { display: flex; gap: 12px; margin-top: 8px; flex-wrap: wrap; }
+    .social-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 30px; padding: 10px 20px;
+      font-family: var(--font-sub); font-size: 0.72rem; letter-spacing: 1px;
+      color: var(--cream); transition: all 0.3s ease;
+    }
+    .social-btn:hover { background: rgba(232,120,10,0.15); border-color: var(--saffron); color: var(--gold); transform: translateY(-3px); }
+    .social-btn.insta:hover { background: linear-gradient(135deg, rgba(131,58,180,0.2), rgba(253,29,29,0.2), rgba(252,176,69,0.2)); border-color: #E1306C; }
+    .social-btn.yt:hover { background: rgba(255,0,0,0.1); border-color: #FF0000; }
+    .social-btn.fb:hover { background: rgba(24,119,242,0.1); border-color: #1877F2; }
+    .social-btn.wa:hover { background: rgba(37,211,102,0.1); border-color: #25D366; }
+
+    .map-wrap {
+      border-radius: 16px; overflow: hidden;
+      border: 1px solid rgba(212,175,55,0.2);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    .map-wrap iframe { width: 100%; height: 380px; border: none; filter: sepia(0.3) hue-rotate(180deg) saturate(1.2); }
+
+    /* ═══════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════ */
+    footer {
+      background: var(--dark);
+      border-top: 1px solid rgba(212,175,55,0.1);
+      padding: 48px 5% 32px;
+    }
+    .footer-top {
+      display: grid; grid-template-columns: 2fr 1fr 1fr;
+      gap: 48px; margin-bottom: 40px;
+    }
+    .footer-brand {}
+    .footer-logo { font-family: var(--font-head); font-size: 1.3rem; color: var(--gold); margin-bottom: 12px; }
+    .footer-logo span { color: var(--saffron); display: block; font-size: 0.7rem; font-family: var(--font-sub); letter-spacing: 3px; }
+    .footer-tagline { font-style: italic; color: var(--muted); font-size: 0.9rem; line-height: 1.7; }
+    .footer-col h5 { font-family: var(--font-sub); font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a { font-size: 0.85rem; color: var(--muted); transition: color 0.2s; }
+    .footer-col a:hover { color: var(--saffron); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding-top: 24px; display: flex;
+      align-items: center; justify-content: space-between; flex-wrap: gap;
+    }
+    .footer-copy { font-size: 0.8rem; color: var(--muted); }
+    .footer-copy span { color: var(--saffron); }
+
+    /* ═══════════════════════════════════════════
+       FLOATING WA BUTTON
+    ═══════════════════════════════════════════ */
+    .wa-float {
+      position: fixed; bottom: 28px; right: 28px; z-index: 500;
+      width: 60px; height: 60px;
+      background: linear-gradient(135deg, #25D366, #1DA851);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 30px rgba(37,211,102,0.5);
+      animation: waRipple 2s infinite;
+      transition: transform 0.2s ease;
+    }
+    .wa-float:hover { transform: scale(1.1); }
+
+    /* ═══════════════════════════════════════════
+       MOBILE NAV
+    ═══════════════════════════════════════════ */
+    .mobile-nav {
+      display: none; position: fixed; inset: 0; z-index: 98;
+      background: rgba(15,10,5,0.97); backdrop-filter: blur(20px);
+      flex-direction: column; align-items: center; justify-content: center; gap: 32px;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      font-family: var(--font-head); font-size: 1.5rem; color: var(--cream);
+      transition: color 0.2s;
+    }
+    .mobile-nav a:hover { color: var(--gold); }
+    .mobile-nav .close-btn {
+      position: absolute; top: 24px; right: 28px;
+      font-size: 1.5rem; color: var(--cream); cursor: pointer; background: none; border: none;
+    }
+
+    /* ═══════════════════════════════════════════
+       RESPONSIVE — FULL MULTI-DEVICE SYSTEM
+       XS: <480   Mobile portrait
+       SM: 480–767 Mobile landscape / small tab
+       MD: 768–1024 Tablet
+       LG: 1025–1280 Laptop
+       XL: >1280  Desktop / large screen
+    ═══════════════════════════════════════════ */
+
+    /* ═══════════════════════════════════════════
+       LOGO STYLES
+    ═══════════════════════════════════════════ */
+    .nav-logo-wrap {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none;
+    }
+    .nav-logo-icon {
+      width: 42px; height: 42px; flex-shrink: 0;
+      filter: drop-shadow(0 0 8px rgba(232,120,10,0.4));
+      transition: filter 0.3s ease;
+    }
+    .nav-logo-wrap:hover .nav-logo-icon {
+      filter: drop-shadow(0 0 16px rgba(232,120,10,0.7));
+    }
+    .nav-logo-text { line-height: 1.15; }
+    .nav-logo-text .nl1 {
+      font-family: var(--font-head); font-size: 0.85rem;
+      background: linear-gradient(135deg, var(--gold), var(--saffron));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      letter-spacing: 0.5px; display: block;
+    }
+    .nav-logo-text .nl2 {
+      font-family: var(--font-sub); font-size: 0.58rem;
+      letter-spacing: 2.5px; color: var(--muted);
+      text-transform: uppercase; display: block;
+    }
+    .footer-logo-badge {
+      width: 130px; height: 130px;
+      filter: drop-shadow(0 0 20px rgba(232,120,10,0.3));
+      margin-bottom: 16px;
+    }
+    @media (max-width: 480px) {
+      .nav-logo-icon { width: 34px; height: 34px; }
+      .nav-logo-text .nl1 { font-size: 0.72rem; }
+      .nav-logo-text .nl2 { font-size: 0.5rem; }
+      .footer-logo-badge { width: 100px; height: 100px; }
+    }
+
+    /* ── Touch: hide custom cursor ── */
+    @media (hover: none) {
+      .cursor-dot, .cursor-ring { display: none; }
+      body { cursor: auto; }
+    }
+
+    /* ── LARGE DESKTOP (>1400px) ── */
+    @media (min-width: 1400px) {
+      .section-pad { padding: 120px 8%; }
+      .hero-content { padding: 140px 8% 100px; max-width: 800px; }
+      .usp-row { padding: 40px 8%; }
+      nav { padding: 0 8%; }
+    }
+
+    /* ── LAPTOP (1025–1280px) ── */
+    @media (max-width: 1280px) {
+      .menu-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+      .hero-title .line2 { font-size: clamp(2.4rem, 6vw, 4.8rem); }
+    }
+
+    /* ── TABLET LANDSCAPE + SMALL LAPTOP (768–1024px) ── */
+    @media (max-width: 1024px) {
+      nav { padding: 0 4%; }
+      .nav-links { gap: 1.2rem; }
+      .nav-links a { font-size: 0.7rem; letter-spacing: 1.5px; }
+      .hero-img-wrap { width: 55%; }
+      .section-pad { padding: 80px 4%; }
+      .story-grid { gap: 40px; }
+      .story-img-main { height: 360px; }
+      .footer-top { grid-template-columns: 1.5fr 1fr 1fr; gap: 32px; }
+      .menu-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+      .why-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* ── TABLET PORTRAIT (768–900px) ── */
+    @media (max-width: 900px) {
+      /* Nav */
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      nav { height: 64px; }
+      .nav-logo { font-size: 0.9rem; }
+
+      /* Hero */
+      .hero-img-wrap { opacity: 0.25; width: 100%; right: 0; }
+      .hero-img { clip-path: none; filter: brightness(0.45) saturate(1.3); }
+      .hero-content { padding: 100px 5% 70px; max-width: 100%; }
+      .hero-title .line2 { font-size: clamp(2.8rem, 9vw, 5rem); }
+      .hero-float { display: none; }
+
+      /* Sections */
+      .section-pad { padding: 70px 5%; }
+      .story-grid { grid-template-columns: 1fr; gap: 48px; }
+      .story-img-main { height: 300px; }
+      .story-img-badge { right: 12px; bottom: -16px; width: 90px; height: 90px; }
+      .story-img-inner { transform: none; }
+      .story-img-corner { display: none; }
+
+      /* Contact & Footer */
+      .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+      .map-wrap iframe { height: 320px; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+
+      /* Menu cards: disable 3d flip on tablet, use tap */
+      .menu-card { height: auto; cursor: pointer; }
+      .card-inner { transform: none !important; transition: none; }
+      .card-face.card-back { display: none; }
+      .card-face.card-front { position: relative; transform: none; backface-visibility: visible; height: auto; }
+      .menu-card .card-tap-btn { display: flex; }
+
+      /* USP row */
+      .usp-pill { padding: 10px 18px; }
+      .usp-text strong { font-size: 0.85rem; }
+
+      /* Alert */
+      .alert-banner { margin: 0 4%; padding: 18px 20px; }
+
+      /* Why grid */
+      .why-grid { grid-template-columns: repeat(2, 1fr); }
+
+      /* Delivery band */
+      .delivery-band { flex-direction: column; text-align: center; }
+      .delivery-band .btn-order-wa { margin: 0 auto !important; }
+    }
+
+    /* ── MOBILE LANDSCAPE / SMALL TABLET (480–767px) ── */
+    @media (max-width: 767px) {
+      /* Nav */
+      .nav-logo { font-size: 0.8rem; }
+      .nav-logo span { font-size: 0.55rem; }
+
+      /* Hero */
+      .hero-content { padding: 88px 5% 60px; }
+      .hero-title .line1 { font-size: clamp(1rem, 4vw, 1.4rem); }
+      .hero-title .line2 { font-size: clamp(2.2rem, 10vw, 3.6rem); }
+      .hero-title .line3 { font-size: clamp(0.95rem, 3.5vw, 1.4rem); }
+      .hero-tel { font-size: clamp(0.85rem, 3vw, 1.1rem); }
+      .hero-desc { font-size: 0.92rem; margin-bottom: 28px; }
+      .hero-badge { font-size: 0.62rem; padding: 5px 12px; }
+
+      /* Section spacing */
+      .section-pad { padding: 60px 5%; }
+      .section-title { font-size: clamp(1.6rem, 6vw, 2.5rem); }
+
+      /* Menu */
+      .menu-grid { grid-template-columns: 1fr; gap: 20px; }
+      .menu-filters { gap: 8px; }
+      .filter-btn { font-size: 0.65rem; padding: 7px 14px; }
+
+      /* USP */
+      .usp-row { gap: 10px; padding: 24px 4%; }
+      .usp-pill { padding: 8px 14px; gap: 8px; }
+      .usp-icon { font-size: 1.1rem; }
+      .usp-text { font-size: 0.68rem; }
+      .usp-text strong { font-size: 0.78rem; }
+
+      /* Story */
+      .story-quote { font-size: 1.05rem; padding-left: 16px; }
+      .story-body { font-size: 0.9rem; }
+      .story-milestones { gap: 24px; }
+      .milestone-num { font-size: 2rem; }
+
+      /* Alert banner */
+      .alert-banner { flex-direction: column; gap: 12px; padding: 16px; margin: 0 4%; }
+      .alert-icon { font-size: 1.6rem; }
+      .alert-text h4 { font-size: 0.9rem; }
+      .alert-text p { font-size: 0.82rem; }
+
+      /* Video grid */
+      .video-grid { grid-template-columns: 1fr; }
+
+      /* Why grid */
+      .why-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+      .why-card { padding: 24px 16px; }
+      .why-icon { font-size: 2rem; }
+      .why-title { font-size: 0.88rem; }
+      .why-desc { font-size: 0.8rem; }
+
+      /* CTA */
+      #order-cta { padding: 60px 5%; }
+      .cta-title { font-size: clamp(1.6rem, 6vw, 2.4rem); }
+      .cta-sub { font-size: 0.9rem; }
+      .cta-wa-big { font-size: 0.9rem; padding: 16px 28px; }
+
+      /* Contact */
+      .info-item { gap: 12px; }
+      .info-icon { width: 38px; height: 38px; font-size: 1rem; }
+      .social-links { gap: 8px; }
+      .social-btn { padding: 8px 14px; font-size: 0.65rem; }
+
+      /* Footer */
+      .footer-top { grid-template-columns: 1fr; gap: 28px; }
+      .footer-logo { font-size: 1.1rem; }
+      .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+      .footer-copy { font-size: 0.75rem; }
+
+      /* Marquee */
+      .marquee-item { font-size: 0.72rem; padding: 0 24px; }
+
+      /* Delivery band */
+      .delivery-text h3 { font-size: 1.1rem; }
+
+      /* WA float */
+      .wa-float { width: 52px; height: 52px; bottom: 20px; right: 20px; }
+
+      /* Mobile nav links */
+      .mobile-nav a { font-size: 1.2rem; }
+    }
+
+    /* ── MOBILE PORTRAIT (max 480px) ── */
+    @media (max-width: 480px) {
+      html { font-size: 15px; }
+
+      /* Nav */
+      nav { padding: 0 4%; height: 58px; }
+      .nav-logo { font-size: 0.72rem; }
+
+      /* Hero */
+      .hero-content { padding: 80px 4% 50px; }
+      .hero-title .line2 { font-size: clamp(2rem, 12vw, 3rem); }
+      .hero-actions { flex-direction: column; width: 100%; }
+      .btn-primary, .btn-secondary { justify-content: center; width: 100%; text-align: center; }
+      .hero-scroll { display: none; }
+
+      /* Sections */
+      .section-pad { padding: 50px 4%; }
+      .section-tag { font-size: 0.62rem; letter-spacing: 3px; }
+      .section-title { font-size: clamp(1.4rem, 7vw, 2.1rem); }
+      .section-divider { width: 40px; }
+
+      /* Story */
+      .story-img-main { height: 240px; }
+      .story-img-badge { display: none; }
+      .story-milestones { justify-content: space-between; }
+
+      /* Alert */
+      .alert-banner { border-radius: 8px; }
+
+      /* Menu cards — show as simple vertical cards */
+      .menu-card { height: auto; }
+      .card-img { height: 180px; }
+      .card-body { padding: 14px; }
+      .card-name { font-size: 1rem; }
+      .card-price { font-size: 1.1rem; }
+
+      /* Why */
+      .why-grid { grid-template-columns: 1fr; }
+      .why-card { padding: 24px 20px; }
+
+      /* CTA */
+      .cta-wa-big { width: 100%; justify-content: center; padding: 16px 20px; font-size: 0.85rem; }
+
+      /* Contact */
+      .social-links { flex-direction: column; }
+      .social-btn { justify-content: center; }
+
+      /* Footer */
+      footer { padding: 40px 4% 28px; }
+      .footer-tagline { font-size: 0.82rem; }
+      .footer-col ul li { margin-bottom: 8px; }
+
+      /* USP row — 2 per row on small phones */
+      .usp-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 20px 4%; }
+      .usp-pill { border-radius: 10px; padding: 10px 12px; flex-direction: column; text-align: center; gap: 4px; }
+
+      /* Video */
+      .video-label { font-size: 0.75rem; padding: 12px; }
+
+      /* Marquee smaller */
+      .marquee-item { font-size: 0.65rem; padding: 0 16px; }
+
+      /* Preloader text */
+      .loader-text { font-size: 0.65rem; letter-spacing: 3px; text-align: center; padding: 0 20px; }
+    }
+
+    /* ── EXTRA SMALL (max 360px — small Android phones) ── */
+    @media (max-width: 360px) {
+      .hero-title .line2 { font-size: 1.9rem; }
+      .nav-logo { font-size: 0.65rem; }
+      .usp-row { grid-template-columns: 1fr; }
+      .usp-pill { flex-direction: row; text-align: left; }
+      .cta-wa-big { font-size: 0.78rem; gap: 8px; }
+      .social-btn { font-size: 0.62rem; padding: 7px 12px; }
+    }
+
+    /* ── PRINT STYLES ── */
+    @media print {
+      #spiceCanvas, .cursor-dot, .cursor-ring, .wa-float,
+      nav, .mobile-nav, #preloader, .hero-scroll { display: none !important; }
+      body { background: white; color: black; }
+      .section-title, .card-name { color: #333; -webkit-text-fill-color: #333; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- PRELOADER -->
+<div id="preloader">
+  <div class="loader-pot">
+    <div class="steam-line"></div>
+    <div class="steam-line"></div>
+    <div class="steam-line"></div>
+    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="40" cy="55" rx="30" ry="18" fill="#2A1F10" stroke="#D4AF37" stroke-width="1.5"/>
+      <path d="M14 42 Q12 30 40 28 Q68 30 66 42" fill="#3A2A10" stroke="#D4AF37" stroke-width="1.5"/>
+      <rect x="28" y="24" width="24" height="6" rx="3" fill="#D4AF37"/>
+      <ellipse cx="40" cy="40" rx="26" ry="8" fill="#E8780A" opacity="0.3"/>
+    </svg>
+  </div>
+  <div class="loader-text">Cooking up something special…</div>
+</div>
+
+<!-- CUSTOM CURSOR -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- FLOATING PARTICLES -->
+<canvas id="spiceCanvas"></canvas>
+
+<!-- FLOATING WHATSAPP -->
+<a class="wa-float" href="https://wa.me/919000000000?text=Hi!%20I%20want%20to%20order%20from%20A%20New%20Biriyani%20Story%20%F0%9F%8D%9B" target="_blank" aria-label="Order on WhatsApp">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <button class="close-btn" onclick="closeMobileNav()">✕</button>
+  <svg style="width:60px;height:60px;margin-bottom:8px;filter:drop-shadow(0 0 12px rgba(232,120,10,0.5))" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="mnGld" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#D4AF37"/><stop offset="100%" stop-color="#E8780A"/></linearGradient>
+      <linearGradient id="mnPot" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#E8780A"/><stop offset="100%" stop-color="#7A3200"/></linearGradient>
+    </defs>
+    <circle cx="40" cy="40" r="38" stroke="url(#mnGld)" stroke-width="1.2" fill="rgba(15,10,5,0.9)"/>
+    <path d="M 32 22 Q 29 16 32 10" stroke="#D4AF37" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.8"/>
+    <path d="M 40 19 Q 37 12 40 6"  stroke="#E8780A" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <path d="M 48 22 Q 51 16 48 10" stroke="#D4AF37" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.8"/>
+    <rect x="37" y="26" width="6" height="5" rx="2.5" fill="url(#mnGld)"/>
+    <ellipse cx="40" cy="31" rx="16" ry="4.5" fill="#B06000" stroke="url(#mnGld)" stroke-width="0.8"/>
+    <path d="M 20 36 Q 18 46 20 55 Q 24 66 40 67 Q 56 66 60 55 Q 62 46 60 36 Q 50 41 40 41 Q 30 41 20 36 Z" fill="url(#mnPot)" stroke="url(#mnGld)" stroke-width="0.8"/>
+    <ellipse cx="40" cy="36" rx="20" ry="5.5" fill="#8B4000" stroke="url(#mnGld)" stroke-width="0.8"/>
+  </svg>
+  <a href="#story" onclick="closeMobileNav()">Our Story</a>
+  <a href="#menu" onclick="closeMobileNav()">Menu</a>
+  <a href="#videos" onclick="closeMobileNav()">Videos</a>
+  <a href="#contact" onclick="closeMobileNav()">Contact</a>
+  <a href="https://wa.me/919000000000?text=Hi!%20I%20want%20to%20order" target="_blank" style="color:#25D366">Order Now 🛵</a>
+</div>
+
+<!-- NAVIGATION -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo-wrap">
+    <!-- POT ICON -->
+    <svg class="nav-logo-icon" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="navGld" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#D4AF37"/>
+          <stop offset="100%" stop-color="#E8780A"/>
+        </linearGradient>
+        <linearGradient id="navPot" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#E8780A"/>
+          <stop offset="100%" stop-color="#7A3200"/>
+        </linearGradient>
+      </defs>
+      <!-- Outer ring -->
+      <circle cx="40" cy="40" r="38" stroke="url(#navGld)" stroke-width="1.2" fill="rgba(15,10,5,0.8)"/>
+      <!-- Steam -->
+      <path d="M 32 22 Q 29 16 32 10" stroke="#D4AF37" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.8"/>
+      <path d="M 40 19 Q 37 12 40 6"  stroke="#E8780A" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <path d="M 48 22 Q 51 16 48 10" stroke="#D4AF37" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.8"/>
+      <!-- Lid knob -->
+      <rect x="37" y="26" width="6" height="5" rx="2.5" fill="url(#navGld)"/>
+      <ellipse cx="40" cy="26" rx="2.5" ry="1.5" fill="#E8C040"/>
+      <!-- Lid -->
+      <ellipse cx="40" cy="31" rx="16" ry="4.5" fill="#B06000" stroke="url(#navGld)" stroke-width="0.8"/>
+      <!-- Pot body -->
+      <path d="M 20 36 Q 18 46 20 55 Q 24 66 40 67 Q 56 66 60 55 Q 62 46 60 36 Q 50 41 40 41 Q 30 41 20 36 Z" fill="url(#navPot)" stroke="url(#navGld)" stroke-width="0.8"/>
+      <!-- Pot rim -->
+      <ellipse cx="40" cy="36" rx="20" ry="5.5" fill="#8B4000" stroke="url(#navGld)" stroke-width="0.8"/>
+      <!-- Shine -->
+      <ellipse cx="33" cy="48" rx="4" ry="6" fill="white" opacity="0.07" transform="rotate(-15,33,48)"/>
+      <!-- Base shadow -->
+      <ellipse cx="40" cy="66" rx="20" ry="3.5" fill="#3A1800" opacity="0.6"/>
+      <!-- Decorative dots -->
+      <circle cx="40" cy="2.5" r="1.8" fill="#D4AF37" opacity="0.7"/>
+      <circle cx="2.5" cy="40" r="1.8" fill="#D4AF37" opacity="0.7"/>
+      <circle cx="77.5" cy="40" r="1.8" fill="#D4AF37" opacity="0.7"/>
+      <circle cx="40" cy="77.5" r="1.8" fill="#D4AF37" opacity="0.7"/>
+    </svg>
+    <div class="nav-logo-text">
+      <span class="nl1">A New Biriyani Story</span>
+      <span class="nl2">Cloud Kitchen · Tirupati</span>
+    </div>
+  </a>
+  <div class="nav-links">
+    <a href="#story">Our Story</a>
+    <a href="#menu">Menu</a>
+    <a href="#videos">Videos</a>
+    <a href="#contact">Contact</a>
+    <a href="https://wa.me/919000000000?text=Hi!%20I%20want%20to%20order%20from%20A%20New%20Biriyani%20Story%20%F0%9F%8D%9B" target="_blank" class="nav-cta">🛵 Order Now</a>
+  </div>
+  <div class="hamburger" id="hamburger" onclick="openMobileNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-img-wrap" id="heroImgWrap">
+    <img class="hero-img" id="heroImg"
+      src="https://images.unsplash.com/photo-1563379091339-03246965abfc?w=900&auto=format&fit=crop&q=80"
+      alt="Biriyani" />
+    <div class="hero-img-overlay"></div>
+  </div>
+
+  <!-- floating emojis -->
+  <div class="hero-float">🌿</div>
+  <div class="hero-float">⭐</div>
+  <div class="hero-float">🌶️</div>
+  <div class="hero-float">🧅</div>
+
+  <div class="hero-content">
+    <div class="hero-badge"><span class="dot"></span> Cloud Kitchen · Free Delivery · Tirupati</div>
+    <h1 class="hero-title">
+      <div class="line1">A New</div>
+      <div class="line2">Biriyani Story</div>
+      <div class="line3">బిర్యానీ కథ</div>
+    </h1>
+    <p class="hero-tel">అసలైన రుచి · అదే స్వాదు · ప్రతీ సారీ</p>
+    <p class="hero-desc">
+      Born from a traveller's quest across South India — crafting the one consistent,
+      soul-warming flavour that never disappointed. Home-style masalas. Restaurant-grade craft.
+      Delivered to your door.
+    </p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="https://wa.me/919000000000?text=Hi!%20I%20want%20to%20order%20from%20A%20New%20Biriyani%20Story%20%F0%9F%8D%9B" target="_blank">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Order on WhatsApp
+      </a>
+      <a class="btn-secondary" href="#menu">
+        🍽️ View Full Menu
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span class="scroll-label">Scroll</span>
+    <div class="scroll-arrow">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2L6 10M6 10L2 6M6 10L10 6" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track" id="marqueeTrack">
+    <span class="marquee-item">🍛 Authentic Masalas <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">🏠 Home-Style Flavour <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">🛵 FREE Delivery in Tirupati <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">⏱️ Bulk Orders: Book 5 Hrs Early <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">☁️ Cloud Kitchen <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">📲 Order via WhatsApp <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">🌶️ Consistent Taste Every Time <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">🍛 Authentic Masalas <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">🏠 Home-Style Flavour <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">🛵 FREE Delivery in Tirupati <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">⏱️ Bulk Orders: Book 5 Hrs Early <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">☁️ Cloud Kitchen <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">📲 Order via WhatsApp <span class="marquee-dot">◆</span></span>
+    <span class="marquee-item">🌶️ Consistent Taste Every Time <span class="marquee-dot">◆</span></span>
+  </div>
+</div>
+
+<!-- USP PILLS -->
+<div class="usp-row">
+  <div class="usp-pill reveal">
+    <span class="usp-icon">🛵</span>
+    <div class="usp-text"><strong>Free Delivery</strong>All over Tirupati City</div>
+  </div>
+  <div class="usp-pill reveal" style="transition-delay:0.1s">
+    <span class="usp-icon">⏱️</span>
+    <div class="usp-text"><strong>Bulk Orders</strong>Book at least 5 hrs in advance</div>
+  </div>
+  <div class="usp-pill reveal" style="transition-delay:0.2s">
+    <span class="usp-icon">🌿</span>
+    <div class="usp-text"><strong>Pure Masalas</strong>Finest Indian spices</div>
+  </div>
+  <div class="usp-pill reveal" style="transition-delay:0.3s">
+    <span class="usp-icon">☁️</span>
+    <div class="usp-text"><strong>Cloud Kitchen</strong>Fresh, hygienic, made to order</div>
+  </div>
+  <div class="usp-pill reveal" style="transition-delay:0.4s">
+    <span class="usp-icon">🔁</span>
+    <div class="usp-text"><strong>Same Taste</strong>Every single time, guaranteed</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     STORY SECTION
+═══════════════════════════════════════════ -->
+<section id="story" class="section-pad">
+  <div class="story-grid">
+    <div class="story-img-frame reveal-left">
+      <div class="story-img-inner">
+        <div class="story-img-corner"></div>
+        <img class="story-img-main"
+          src="https://images.unsplash.com/photo-1601050690597-df0568f70950?w=700&auto=format&fit=crop&q=80"
+          alt="The Kitchen Story" />
+        <div class="story-img-badge">
+          <span class="story-img-badge-inner">
+            Born<br/>From<br/>Journey
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="story-text reveal-right">
+      <div class="section-tag">Our Beginning</div>
+      <h2 class="section-title">The <span>Story</span><br/>Behind the Dum</h2>
+      <div class="section-divider"></div>
+      <blockquote class="story-quote">
+        "I travelled every corner of South India — every city, every dhaba, every street stall —
+        chasing a biriyani that felt like home. I never found it. So I built it."
+      </blockquote>
+      <p class="story-body">
+        Our founder, a B.Tech Civil Engineering graduate, spent years working across all of South India —
+        covering every district in Andhra Pradesh and Telangana. Every new city was a new adventure,
+        every plate of biriyani a new hope. But time after time, the flavour was different, the
+        consistency lost.
+      </p>
+      <p class="story-body">
+        Even back home in Tirupati, the taste changed — every visit brought a different experience.
+        That disappointment sparked a mission: to bring one unwavering, soul-satisfying flavour to
+        every household. A taste that never compromises. A Biriyani Story that never changes its ending.
+      </p>
+      <p class="story-body">
+        Today, <strong style="color:var(--gold)">A New Biriyani Story</strong> is Tirupati's cloud kitchen
+        built on that promise — rich masalas, home-cooked warmth, delivered free to your door.
+      </p>
+      <div class="story-milestones">
+        <div class="milestone">
+          <div class="milestone-num" data-count="29">0</div>
+          <div class="milestone-label">Districts Travelled</div>
+        </div>
+        <div class="milestone">
+          <div class="milestone-num" data-count="11">0</div>
+          <div class="milestone-label">Signature Dishes</div>
+        </div>
+        <div class="milestone">
+          <div class="milestone-num" data-count="1">0</div>
+          <div class="milestone-label">Consistent Promise</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BULK ORDER ALERT -->
+<div class="alert-banner reveal">
+  <div class="alert-icon">⏰</div>
+  <div class="alert-text">
+    <h4>📦 BULK / LARGE ORDERS — Please Plan Ahead!</h4>
+    <p>For parties, events, or orders of 10+ servings, please place your order at least <strong>5 hours in advance</strong> via WhatsApp so we can prepare every plate with the same love and quality. <strong>No compromise on taste — ever.</strong></p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     MENU SECTION
+═══════════════════════════════════════════ -->
+<section id="menu" class="section-pad">
+  <div class="menu-header">
+    <div class="section-tag">Our Flavours</div>
+    <h2 class="section-title">The <span>Menu</span> · మన రుచులు</h2>
+    <div class="section-divider" style="margin:20px auto 0;"></div>
+    <p style="color:var(--muted);font-size:0.9rem;margin-top:16px;">Hover over a card to see full details & order. All items freshly prepared.</p>
+  </div>
+  <div class="menu-filters">
+    <button class="filter-btn active" onclick="filterMenu(this,'all')">All Items</button>
+    <button class="filter-btn" onclick="filterMenu(this,'biriyani')">🍛 Biriyani</button>
+    <button class="filter-btn" onclick="filterMenu(this,'rice')">🍚 Rice</button>
+    <button class="filter-btn" onclick="filterMenu(this,'curry')">🥘 Curries</button>
+    <button class="filter-btn" onclick="filterMenu(this,'sides')">🫓 Sides</button>
+  </div>
+
+  <div class="menu-grid" id="menuGrid">
+
+    <!-- 1. RAJA DUM -->
+    <div class="menu-card reveal" data-cat="biriyani">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <img class="card-img" src="https://images.unsplash.com/photo-1563379091339-03246965abfc?w=500&auto=format&fit=crop&q=80" alt="Raja Dum Biriyani" loading="lazy"/>
+          <div class="card-body">
+            <div class="card-tel">నిజాం దమ్</div>
+            <div class="card-name">Nizam Dum Biriyani</div>
+            <div class="card-desc">Classic Hyderabadi slow-cooked dum biriyani — long-grain basmati, bone-in chicken, golden fried onions & royal saffron. A Nizam-worthy bowl.</div>
+            <div class="card-footer">
+              <div class="card-price">₹180</div>
+              <div class="card-tag">Bestseller</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-face card-back">
+          <div style="font-size:2.5rem;margin-bottom:8px;">🍛</div>
+          <div class="back-name">Nizam Dum Biriyani</div>
+          <div class="back-tel">నిజాం దమ్</div>
+          <div class="back-desc">Slow-cooked to perfection in a sealed handi. Bone-in chicken, caramelised onions, saffron-infused basmati & our secret 12-spice masala blend.</div>
+          <div class="back-price">₹180</div>
+          <a class="btn-order-wa" href="https://wa.me/919000000000?text=Hi!%20I%20want%20to%20order%20*Ra%C4%81ja%20Dum%20Biriyani*%20from%20A%20New%20Biriyani%20Story%20%F0%9F%8D%9B" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Order on WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. AGNI JWALA DUM -->
+    <div class="menu-card reveal" data-cat="biriyani" style="transition-delay:0.1s">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <img class="card-img" src="https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=500&auto=format&fit=crop&q=80" alt="Agni Jwala Dum" loading="lazy"/>
+          <div class="card-body">
+            <div class="card-tel">అగ్ని జ్వాల దమ్</div>
+            <div class="card-name">Agni Jwala Dum</div>
+            <div class="card-desc">Tandoori-fired chicken piece laid on aromatic flavoured dum rice — smoky, fiery & absolutely unforgettable.</div>
+            <div class="card-footer">
+              <div class="card-price">₹220</div>
+              <div class="card-tag">🔥 Chef's Fire</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-face card-back">
+          <div style="font-size:2.5rem;margin-bottom:8px;">🔥</div>
+          <div class="back-name">Agni Jwala Dum</div>
+          <div class="back-tel">అగ్ని జ్వాల దమ్</div>
+          <div class="back-desc">Agni = Fire. Jwala = Flame. Tandoori marinated chicken charred over live fire, served atop our signature flavoured dum rice. The smell alone will make you order seconds.</div>
+          <div class="back-price">₹220</div>
+          <a class="btn-order-wa" href="https://wa.me/919000000000?text=Hi!%20I%20want%20to%20order%20*Agni%20Jwala%20Dum*%20from%20A%20New%20Biriyani%20Story%20%F0%9F%8D%9B" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Order on WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. SUVARNA DUM -->
+    <div class="menu-card reveal" data-cat="biriyani" style="transition-delay:0.2s">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <img class="card-img" src="https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=500&auto=format&fit=crop&q=80" alt="Suvarna Dum" loading="lazy"/>
+          <div class="card-body">
+            <div class="card-tel">సువర్ణ దమ్</div>
+            <div class="card-name">Suvarna Dum Biriyani</div>
+            <div class="card-desc">Golden boneless chicken pieces, crispy-fried and slow-cooked into our basmati dum. No bones, pure golden flavour.</div>
+            <div class="card-footer">
+              <div class="card-price">₹200</div>
+              <div class="card-tag">Boneless</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-face card-back">
+          <div style="font-size:2.5rem;margin-bottom:8px;">🍗</div>
+          <div class="back-name">Suvarna Dum Biriyani</div>
+          <div class="back-tel">సువర్ణ దమ్</div>
+          <div class="back-desc">Suvarna = Golden. 100% boneless fried chicken pieces slow-cooked into saffron basmati layers. Rich, indulgent, and zero fuss while eating. Pure gold in every spoon.</div>
+          <div class="back-price">₹200</div>
+          <a class="btn-order-wa" href="https://wa.me/919000000000?text=Hi!%20I%20want%20to%20order%20*Suvarna%20Dum%20Biriyani*%20from%20A%20New%20Biriyani%20Story%20%F0%9F%8D%9B" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Order on WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. BAGARA VAIBHAVAM -->
+    <div class="menu-card reveal" data-cat="rice" style="transition-delay:0.1s">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <img class="card-img" src="https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=500&auto=format&fit=crop&q=80" alt="Bagara Vaibhavam" loading="lazy"/>
+          <div class="card-body">
+            <div class="card-tel">బాగర వైభవం</div>
+            <div class="card-name">Bagara Vaibhavam</div>
+            <div class="card-desc">Traditional Andhra Bhagara rice — peanuts, sesame, tamarind & coconut slow-cooked to festive perfection. A royal Andhra treasure.</div>
+            <div class="card-footer">
+              <div class="card-price">₹120</div>
+              <div class="card-tag">Andhra Special</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-face card-back">
+          <div style="font-size:2.5rem;margin-bottom:8px;">🍚</div>
+          <div class="back-name">Bagara Vaibhavam</div>
+          <div class="back-tel">బాగర వైభవం</div>
+          <div class="back-desc">Vaibhavam = Splendour. A celebratory Andhra rice dish cooked with peanuts, curry leaves, tamarind and our signature sesame masala. Festive flavour, any day of the week.</div>
+          <div class="back-price">₹120</div>
+          <a class="btn-order-wa" href="https://wa.me/919000000000?text=Hi!%20I%20want%20to%20order%20*Bagara%20Vaibhavam*%20from%20A%20New%20Biriyani%20Story%20%F0%9F%8D%9B" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Order on WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- 5. RAGI MUDDA -->
+    <div class="menu-card reveal" data-cat="sides" style="transition-delay:0.2s">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <img class="card-img" src="https://images.unsplash.com/photo-1574484284002-952d92456975?w=500&auto=format&fit=crop&q=80" alt="Ragi Mudda" loading="lazy"/>
+          <div class="card-body">
+            <div class="card-tel">రాగి ముద్ద</div>
+            <div class="card-name">Ragi Mudda</div>
+            <div class="card-desc">Earthy finger millet ball — the Andhra ancestral superfood, rolled fresh and served warm with any curry. Wholesome and filling.</div>
+            <div class="card-footer">
+              <div class="card-price">₹60</div>
+              <div class="card-tag">Healthy</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-face card-back">
+          <div style="font-size:2.5rem;margin-bottom:8px;">🫙</div>
+          <div class="back-name">Ragi Mudda</div>
+          <div class="back-tel">రాగి ముద్ద</div>
+          <div class="back-desc">Our Ragi Mudda — a true Andhra village classic. Wholesome, fibre-rich, deeply satisfying. Best paired with Naatu Kodi Pulusu or Karam Kodi. Real food, real roots.</div>
+          <div class="back-price">₹60</div>
+          <a class="btn-order-wa" href="https://wa.me/919000000000?text=Hi!%20I%20want%20to%20order%20*Ragi%20Mudda*%20from%20A%20New%20Biriyani%20Story%20%F0%9F%8D%9B" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Order on WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. KOBBARI AMRUTAM -->
+    <div class="menu-card reveal" data-cat="rice" style="transition-delay:0.3s">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <img class="card-img" src="https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=500&auto=format&fit=crop&q=80" alt="Kobbari Amrutam" loading="lazy"/>
+          <div class="card-body">
+            <div class="card-tel">కొబ్బరి అమృతం</div>
+            <div class="card-name">Kobbari Amrutam</div>
+            <div class="card-desc">Fragrant coconut milk rice slow-cooked with whole spices — silky, soul-soothing, and heavenly light. Pure nectar in a bowl.</div>
+            <div class="card-footer">
+              <div class="card-price">₹130</div>
+              <div class="card-tag">Comfort Bowl</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-face card-back">
+          <div style="font-size:2.5rem;margin-bottom:8px;">🥥</div>
+          <div class="back-name">Kobbari Amrutam</div>
+          <div class="back-tel">కొబ్బరి అమృతం</div>
+          <div class="back-desc">Kobbari = Coconut. Amrutam = Nectar. Rice slow-cooked in fresh coconut milk with cardamom, cloves and bay leaf. Creamy, mild, and utterly comforting — like heaven on a plate.</div>
+          <div class="back-price">₹130</div>
+          <a class="btn-order-wa" href="https://wa.me/919000000000?text=Hi!%20I%20want%20to%20order%20*Kobbari%20Amrutam*%20from%20A%20New%20Biriyani%20Story%20%F0%9F%8D%9B" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Order on WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. NAATU KODI PULUSU -->
+    <div class="menu-card reveal" data-cat="curry" style="transition-delay:0.1s">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <img class="card-img" src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=500&auto=format&fit=crop&q=80" alt="Naatu Kodi Pulusu" loading="lazy"/>
+          <div class="card-body">
+            <div class="card-tel">నాటు కోడి పులుసు</div>
+            <div class="card-name">Naatu Kodi Pulusu</div>
+            <div class="card-desc">Country chicken slow-simmered in tamarind-spice gravy — a rustic Andhra classic with deep, earthy warmth. Exactly like Naana made it.</div>
+            <div class="card-footer">
+              <div class="card-price">₹150</div>
+              <div class="card-tag">Village Recipe</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-face card-back">
+          <div style="font-size:2.5rem;margin-bottom:8px;">🍲</div>
+          <div class="back-name">Naatu Kodi Pulusu</div>
+          <div class="back-tel">నాటు కోడి పులుసు</div>
+          <div class="back-desc">Naatu Kodi = Country Chicken. Pulusu = tangy tamarind gravy. Slow-cooked with earthy spices and a touch of coconut. The most soul-warming curry we make.</div>
+          <div class="back-price">₹150</div>
+          <a class="btn-order-wa" href="https://wa.me/919000000000?text=Hi!%20I%20want%20to%20order%20*Naatu%20Kodi%20Pulusu*%20from%20A%20New%20Biriyani%20Story%20%F0%9F%8D%9B" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Order on WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. VENNELA KODI -->
+    <div class="menu-card reveal" data-cat="curry" style="transition-delay:0.2s">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <img class="card-img" src="https://images.unsplash.com/photo-1634487359989-3e90c9432133?w=500&auto=format&fit=crop&q=80" alt="Vennela Kodi" loading="lazy"/>
+          <div class="card-body">
+            <div class="card-tel">వెన్నెల కోడి</div>
+            <div class="card-name">Vennela Kodi</div>
+            <div class="card-desc">Silky boneless chicken in our velvety white-masala curry — mild, creamy, aromatic. Smooth as moonlight, rich as gold.</div>
+            <div class="card-footer">
+              <div class="card-price">₹180</div>
+              <div class="card-tag">⭐ Special</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-face card-back">
+          <div style="font-size:2.5rem;margin-bottom:8px;">🌙</div>
+          <div class="back-name">Vennela Kodi</div>
+          <div class="back-tel">వెన్నెల కోడి</div>
+          <div class="back-desc">Vennela = Moonlight. Tender boneless chicken bathed in a creamy, aromatic masala curry — silky smooth, deeply satisfying, and impossible to resist. Pairs perfectly with any rice or roti.</div>
+          <div class="back-price">₹180</div>
+          <a class="btn-order-wa" href="https://wa.me/919000000000?text=Hi!%20I%20want%20to%20order%20*Vennela%20Kodi*%20from%20A%20New%20Biriyani%20Story%20%F0%9F%8D%9B" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Order on WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9. KARAM KODI GRAVY -->
+    <div class="menu-card reveal" data-cat="curry" style="transition-delay:0.3s">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <img class="card-img" src="https://images.unsplash.com/photo-1596797038530-2c107229654b?w=500&auto=format&fit=crop&q=80" alt="Karam Kodi Gravy" loading="lazy"/>
+          <div class="card-body">
+            <div class="card-tel">కారం కోడి గ్రేవీ</div>
+            <div class="card-name">Karam Kodi Gravy</div>
+            <div class="card-desc">Fiery Andhra spicy chicken gravy — whole dried chillies, bold peppercorns, layered masala. Karam at its finest.</div>
+            <div class="card-footer">
+              <div class="card-price">₹160</div>
+              <div class="card-tag">🌶️ Spicy</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-face card-back">
+          <div style="font-size:2.5rem;margin-bottom:8px;">🌶️</div>
+          <div class="back-name">Karam Kodi Gravy</div>
+          <div class="back-tel">కారం కోడి గ్రేవీ</div>
+          <div class="back-desc">Karam = Spice. The bold Andhra spicy chicken gravy built on whole dried red chillies, cracked peppercorns and our signature garam masala. Real heat, real depth — not for the faint-hearted!</div>
+          <div class="back-price">₹160</div>
+          <a class="btn-order-wa" href="https://wa.me/919000000000?text=Hi!%20I%20want%20to%20order%20*Karam%20Kodi%20Gravy*%20from%20A%20New%20Biriyani%20Story%20%F0%9F%8D%9B" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Order on WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10. VEPUDU KODI -->
+    <div class="menu-card reveal" data-cat="curry" style="transition-delay:0.1s">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <img class="card-img" src="https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=500&auto=format&fit=crop&q=80" alt="Vepudu Kodi" loading="lazy"/>
+          <div class="card-body">
+            <div class="card-tel">వేపుడు కోడి</div>
+            <div class="card-name">Vepudu Kodi</div>
+            <div class="card-desc">Crispy golden Andhra chicken fry — dry-spice marinated and fried to a perfect crunch. The classic vepudu every Telugu home loves.</div>
+            <div class="card-footer">
+              <div class="card-price">₹170</div>
+              <div class="card-tag">Crispy Fry</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-face card-back">
+          <div style="font-size:2.5rem;margin-bottom:8px;">🍗</div>
+          <div class="back-name">Vepudu Kodi</div>
+          <div class="back-tel">వేపుడు కోడి</div>
+          <div class="back-desc">Vepudu = Fry. Marinated in our signature dry spice rub — turmeric, pepper, red chilli and curry leaves — fried till golden and gloriously crunchy. Perfect with Ragi Mudda or any dum.</div>
+          <div class="back-price">₹170</div>
+          <a class="btn-order-wa" href="https://wa.me/919000000000?text=Hi!%20I%20want%20to%20order%20*Vepudu%20Kodi*%20from%20A%20New%20Biriyani%20Story%20%F0%9F%8D%9B" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Order on WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 11. BIRIYANI STORY SPECIAL -->
+    <div class="menu-card reveal" data-cat="curry" style="transition-delay:0.2s">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <img class="card-img" src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=500&auto=format&fit=crop&q=80" alt="Biriyani Story Special" loading="lazy"/>
+          <div class="card-body">
+            <div class="card-tel">బిర్యానీ కథ స్పెషల్</div>
+            <div class="card-name">Biriyani Story Special</div>
+            <div class="card-desc">Our founder's own signature curry — the recipe born from 29 districts of travel. One taste, one story, never forgotten.</div>
+            <div class="card-footer">
+              <div class="card-price">₹190</div>
+              <div class="card-tag">🏆 Signature</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-face card-back">
+          <div style="font-size:2.5rem;margin-bottom:8px;">📖</div>
+          <div class="back-name">Biriyani Story Special</div>
+          <div class="back-tel">బిర్యానీ కథ స్పెషల్</div>
+          <div class="back-desc">This is the curry that started it all. Refined across 29 districts of South India, this is our founder's personal signature — the one consistent flavour that was worth building a whole kitchen for. You have to try this.</div>
+          <div class="back-price">₹190</div>
+          <a class="btn-order-wa" href="https://wa.me/919000000000?text=Hi!%20I%20want%20to%20order%20*Biriyani%20Story%20Special*%20from%20A%20New%20Biriyani%20Story%20%F0%9F%8D%9B" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Order on WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /menu-grid -->
+</section>
+
+<!-- FREE DELIVERY BAND -->
+<div class="delivery-band reveal">
+  <div class="delivery-icon">🛵</div>
+  <div class="delivery-text">
+    <h3>FREE Delivery — All Over Tirupati City</h3>
+    <p>No delivery charges. No minimum order. Just great food, right to your door. <strong>Available Now!</strong></p>
+  </div>
+  <a class="btn-order-wa" href="https://wa.me/919000000000?text=Hi!%20I%20want%20to%20order%20from%20A%20New%20Biriyani%20Story!" target="_blank" style="margin-left:auto;">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    Order Now
+  </a>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     WHY US
+═══════════════════════════════════════════ -->
+<section id="why" class="section-pad">
+  <div style="text-align:center;margin-bottom:60px;">
+    <div class="section-tag">The Promise</div>
+    <h2 class="section-title">Why <span>Our Story</span> is Different</h2>
+    <div class="section-divider" style="margin:20px auto;"></div>
+  </div>
+  <div class="why-grid">
+    <div class="why-card reveal">
+      <div class="why-icon">🔁</div>
+      <div class="why-title">Consistent Every Time</div>
+      <div class="why-desc">Our founder built this kitchen on one promise: the taste never changes. Same masala. Same method. Same joy — every single order.</div>
+    </div>
+    <div class="why-card reveal" style="transition-delay:0.1s">
+      <div class="why-icon">🌿</div>
+      <div class="why-title">Premium Indian Masalas</div>
+      <div class="why-desc">We source only the finest whole spices, ground fresh in-house. No shortcuts, no artificial flavours — just real, natural taste.</div>
+    </div>
+    <div class="why-card reveal" style="transition-delay:0.2s">
+      <div class="why-icon">🏠</div>
+      <div class="why-title">Tastes Like Home</div>
+      <div class="why-desc">Cooked like your mother would. Every dish is made with the kind of care and patience that only a home kitchen offers.</div>
+    </div>
+    <div class="why-card reveal" style="transition-delay:0.3s">
+      <div class="why-icon">☁️</div>
+      <div class="why-title">Cloud Kitchen Fresh</div>
+      <div class="why-desc">Made fresh to every order. No pre-cooked batches sitting around. When you order, we start cooking. That's the cloud kitchen advantage.</div>
+    </div>
+    <div class="why-card reveal" style="transition-delay:0.4s">
+      <div class="why-icon">🛵</div>
+      <div class="why-title">Free Delivery City-Wide</div>
+      <div class="why-desc">We deliver hot and fresh across all of Tirupati city — at absolutely no delivery charge. Always free.</div>
+    </div>
+    <div class="why-card reveal" style="transition-delay:0.5s">
+      <div class="why-icon">📲</div>
+      <div class="why-title">WhatsApp Easy Orders</div>
+      <div class="why-desc">No apps, no accounts. Just WhatsApp us, tell us what you want, and we'll take care of the rest. Simple as that.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     VIDEOS SECTION
+═══════════════════════════════════════════ -->
+<section id="videos" class="section-pad">
+  <div style="text-align:center;margin-bottom:60px;">
+    <div class="section-tag">Behind the Kitchen</div>
+    <h2 class="section-title">Watch Our <span>Story</span></h2>
+    <div class="section-divider" style="margin:20px auto;"></div>
+    <p style="color:var(--muted);font-size:0.95rem;">See how we cook, what we use, and why every plate matters to us.</p>
+  </div>
+  <div class="video-grid">
+    <!-- Replace the src URLs below with your actual YouTube embed links -->
+    <div class="video-card reveal">
+      <div class="video-frame">
+        <!-- REPLACE with your YouTube video embed URL -->
+        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen title="How We Started"></iframe>
+      </div>
+      <div class="video-label">🎬 How A New Biriyani Story Began</div>
+    </div>
+    <div class="video-card reveal" style="transition-delay:0.1s">
+      <div class="video-frame">
+        <!-- REPLACE with your actual YouTube video embed URL -->
+        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen title="Our Kitchen"></iframe>
+      </div>
+      <div class="video-label">🍛 Inside Our Kitchen — Masala Secrets</div>
+    </div>
+    <div class="video-card reveal" style="transition-delay:0.2s">
+      <div class="video-frame">
+        <!-- REPLACE with your actual YouTube video embed URL -->
+        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen title="The Dum Process"></iframe>
+      </div>
+      <div class="video-label">🔥 The Dum Process — How We Seal the Flavour</div>
+    </div>
+  </div>
+  <p style="text-align:center;color:var(--muted);font-size:0.82rem;margin-top:24px;font-style:italic;">
+    ℹ️ Replace the YouTube embed URLs above with your actual video links before publishing.
+  </p>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     ORDER CTA
+═══════════════════════════════════════════ -->
+<section id="order-cta">
+  <div class="cta-title reveal">Hungry? Let's Fix That.</div>
+  <p class="cta-sub reveal">One WhatsApp message is all it takes. We'll take your order, cook fresh, and deliver free — anywhere in Tirupati.</p>
+  <a class="cta-wa-big reveal" href="https://wa.me/919000000000?text=Hi!%20I%20want%20to%20order%20from%20A%20New%20Biriyani%20Story%20%F0%9F%8D%9B%20Please%20send%20me%20the%20menu." target="_blank">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    Order Now on WhatsApp
+  </a>
+  <p class="cta-note">
+    <strong>⏰ Bulk Orders (10+ plates)?</strong> Please order at least 5 hours in advance. · Free delivery all over Tirupati · Fresh, every time.
+  </p>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CONTACT / LOCATION
+═══════════════════════════════════════════ -->
+<section id="contact" class="section-pad">
+  <div style="text-align:center;margin-bottom:60px;">
+    <div class="section-tag">Reach Us</div>
+    <h2 class="section-title">Contact & <span>Location</span></h2>
+    <div class="section-divider" style="margin:20px auto;"></div>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info reveal-left">
+      <h3>Get in Touch</h3>
+
+      <div class="info-item">
+        <div class="info-icon">📲</div>
+        <div class="info-text">
+          <h4>WhatsApp Orders</h4>
+          <p><a href="https://wa.me/919000000000" target="_blank">+91 90000 00000</a><br/>
+          <small style="color:var(--muted)">Tap to open WhatsApp and order instantly</small></p>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <div class="info-icon">📍</div>
+        <div class="info-text">
+          <h4>Cloud Kitchen Location</h4>
+          <p>A New Biriyani Story,<br/>Tirupati, Andhra Pradesh — 517501<br/><small style="color:var(--muted)">(Exact address shared on WhatsApp order)</small></p>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <div class="info-icon">🕐</div>
+        <div class="info-text">
+          <h4>Order Hours</h4>
+          <p>Mon – Sun: 11:00 AM – 10:00 PM<br/><small style="color:var(--muted)">Bulk orders: at least 5 hrs in advance</small></p>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <div class="info-icon">🛵</div>
+        <div class="info-text">
+          <h4>Delivery</h4>
+          <p><strong style="color:#25D366">FREE</strong> delivery all over Tirupati City<br/><small style="color:var(--muted)">Hot, fresh & on time — always</small></p>
+        </div>
+      </div>
+
+      <div style="margin-top:32px;">
+        <h4 style="font-family:var(--font-sub);font-size:0.75rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">Follow Our Story</h4>
+        <div class="social-links">
+          <a class="social-btn insta" href="#" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            Instagram
+          </a>
+          <a class="social-btn yt" href="#" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+            YouTube
+          </a>
+          <a class="social-btn fb" href="#" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            Facebook
+          </a>
+          <a class="social-btn wa" href="https://wa.me/919000000000" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-wrap reveal-right">
+      <!-- Map of Tirupati -->
+      <iframe
+        src="https://maps.google.com/maps?q=Tirupati,+Andhra+Pradesh&t=&z=13&ie=UTF8&iwloc=&output=embed"
+        allowfullscreen
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Tirupati Location">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════ -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <!-- FULL BADGE LOGO -->
+      <svg class="footer-logo-badge" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="ftGld" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#D4AF37"/>
+            <stop offset="60%" stop-color="#E8780A"/>
+            <stop offset="100%" stop-color="#D4AF37"/>
+          </linearGradient>
+          <linearGradient id="ftPot" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#E8780A"/>
+            <stop offset="100%" stop-color="#7A3200"/>
+          </linearGradient>
+          <path id="ftTop" d="M 34,110 A 76,76 0 0,1 186,110"/>
+          <path id="ftBot" d="M 52,152 A 76,76 0 0,0 168,152"/>
+        </defs>
+        <!-- Outer filled ring -->
+        <circle cx="110" cy="110" r="107" fill="#0F0A05" stroke="url(#ftGld)" stroke-width="1.5"/>
+        <circle cx="110" cy="110" r="100" fill="none" stroke="url(#ftGld)" stroke-width="0.5" stroke-dasharray="3 4" opacity="0.5"/>
+        <!-- 8 cardinal dots -->
+        <circle cx="110" cy="4"   r="3" fill="#D4AF37" opacity="0.8"/>
+        <circle cx="110" cy="216" r="3" fill="#D4AF37" opacity="0.8"/>
+        <circle cx="4"   cy="110" r="3" fill="#D4AF37" opacity="0.8"/>
+        <circle cx="216" cy="110" r="3" fill="#D4AF37" opacity="0.8"/>
+        <circle cx="34"  cy="34"  r="2" fill="#E8780A" opacity="0.5"/>
+        <circle cx="186" cy="34"  r="2" fill="#E8780A" opacity="0.5"/>
+        <circle cx="34"  cy="186" r="2" fill="#E8780A" opacity="0.5"/>
+        <circle cx="186" cy="186" r="2" fill="#E8780A" opacity="0.5"/>
+        <!-- Inner decorative ring -->
+        <circle cx="110" cy="110" r="83" fill="none" stroke="rgba(212,175,55,0.15)" stroke-width="1"/>
+        <!-- ✦ flanking stars -->
+        <text x="30"  y="116" font-size="11" fill="#D4AF37" opacity="0.45" text-anchor="middle">✦</text>
+        <text x="190" y="116" font-size="11" fill="#D4AF37" opacity="0.45" text-anchor="middle">✦</text>
+        <!-- Steam wisps -->
+        <path d="M 96 64  Q 92 53 96 42"  stroke="#D4AF37" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.7"/>
+        <path d="M 110 59 Q 106 45 110 32" stroke="#E8780A" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+        <path d="M 124 64 Q 128 53 124 42" stroke="#D4AF37" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.7"/>
+        <!-- Lid knob -->
+        <rect x="105" y="68" width="10" height="9" rx="4" fill="url(#ftGld)"/>
+        <ellipse cx="110" cy="68" rx="4" ry="2.5" fill="#F0D060"/>
+        <!-- Lid -->
+        <ellipse cx="110" cy="76" rx="26" ry="7.5" fill="#B06000" stroke="url(#ftGld)" stroke-width="1"/>
+        <!-- Pot body -->
+        <path d="M 76 83 Q 72 98 76 115 Q 82 135 110 137 Q 138 135 144 115 Q 148 98 144 83 Q 128 91 110 91 Q 92 91 76 83 Z" fill="url(#ftPot)" stroke="url(#ftGld)" stroke-width="1"/>
+        <!-- Pot rim -->
+        <ellipse cx="110" cy="83" rx="34" ry="9" fill="#8B4000" stroke="url(#ftGld)" stroke-width="1"/>
+        <!-- Shine -->
+        <ellipse cx="94" cy="102" rx="7" ry="11" fill="white" opacity="0.06" transform="rotate(-20,94,102)"/>
+        <!-- Base -->
+        <ellipse cx="110" cy="135" rx="34" ry="6" fill="#3A1800" opacity="0.6"/>
+        <!-- Top arc text -->
+        <text font-family="Cinzel, serif" font-size="11" fill="url(#ftGld)" letter-spacing="4" font-weight="600">
+          <textPath href="#ftTop" startOffset="50%" text-anchor="middle">A NEW BIRIYANI STORY</textPath>
+        </text>
+        <!-- Bottom arc text -->
+        <text font-family="Cinzel, serif" font-size="8" fill="#D4AF37" letter-spacing="2" opacity="0.7">
+          <textPath href="#ftBot" startOffset="50%" text-anchor="middle">CLOUD KITCHEN · TIRUPATI</textPath>
+        </text>
+      </svg>
+      <p class="footer-tagline">
+        "Born from a thousand kilometres of searching, built on the promise of one consistent, soul-satisfying flavour. Every plate tells our story."
+      </p>
+      <p style="color:var(--muted);font-size:0.8rem;margin-top:12px;font-family:var(--font-tel);">
+        అసలైన రుచి · అదే స్వాదు · ప్రతీ సారీ
+      </p>
+    </div>
+    <div class="footer-col">
+      <h5>Quick Links</h5>
+      <ul>
+        <li><a href="#story">Our Story</a></li>
+        <li><a href="#menu">Full Menu</a></li>
+        <li><a href="#videos">Videos</a></li>
+        <li><a href="#why">Why Us</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Order Info</h5>
+      <ul>
+        <li><a href="https://wa.me/919000000000" target="_blank">WhatsApp Order</a></li>
+        <li><a href="#">Free Delivery</a></li>
+        <li><a href="#">Bulk Orders</a></li>
+        <li><a href="#">Timings</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2024 <span>A New Biriyani Story</span> · Made with 🔥 in Tirupati, Andhra Pradesh</p>
+    <p class="footer-copy" style="margin-top:0">All orders via <span>WhatsApp</span> · Free delivery city-wide</p>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════ -->
+<script>
+/* ── PRELOADER ── */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('preloader').classList.add('hidden');
+  }, 1800);
+});
+
+/* ── CUSTOM CURSOR ── */
+const dot = document.getElementById('cursorDot');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+});
+(function animRing() {
+  rx += (mx - rx) * 0.12; ry += (my - ry) *.12;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(animRing);
+})();
+document.querySelectorAll('a,button,.menu-card,.why-card,.usp-pill').forEach(el => {
+  el.addEventListener('mouseenter', () => { ring.style.width='60px'; ring.style.height='60px'; ring.style.opacity='0.3'; });
+  el.addEventListener('mouseleave', () => { ring.style.width='36px'; ring.style.height='36px'; ring.style.opacity='0.6'; });
+});
+
+/* ── NAVBAR SCROLL ── */
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+});
+
+/* ── MOBILE NAV ── */
+function openMobileNav() { document.getElementById('mobileNav').classList.add('open'); }
+function closeMobileNav() { document.getElementById('mobileNav').classList.remove('open'); }
+
+/* ── HERO 3D PARALLAX ── */
+const heroImgWrap = document.getElementById('heroImgWrap');
+const heroImg = document.getElementById('heroImg');
+document.addEventListener('mousemove', e => {
+  const xRatio = (e.clientX / window.innerWidth - 0.5) * 2;
+  const yRatio = (e.clientY / window.innerHeight - 0.5) * 2;
+  if(heroImg) heroImg.style.transform = `rotateY(${xRatio * -4}deg) rotateX(${yRatio * 2}deg) scale(1.03)`;
+});
+
+/* ── FLOATING SPICE CANVAS ── */
+const canvas = document.getElementById('spiceCanvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+
+const spiceEmoji = ['✦','◆','✦','·','⋆','✦','◆'];
+const particles = Array.from({length: 60}, () => ({
+  x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+  size: Math.random() * 6 + 2, speed: Math.random() * 0.6 + 0.2,
+  char: spiceEmoji[Math.floor(Math.random() * spiceEmoji.length)],
+  opacity: Math.random() * 0.5 + 0.1,
+  drift: (Math.random() - 0.5) * 0.3,
+  hue: Math.random() > 0.5 ? '#E8780A' : '#D4AF37'
+}));
+
+function drawParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {
+    ctx.globalAlpha = p.opacity;
+    ctx.fillStyle = p.hue;
+    ctx.font = `${p.size * 2}px serif`;
+    ctx.fillText(p.char, p.x, p.y);
+    p.y -= p.speed; p.x += p.drift;
+    if(p.y < -20) { p.y = canvas.height + 20; p.x = Math.random() * canvas.width; }
+    if(p.x < -20) p.x = canvas.width + 20;
+    if(p.x > canvas.width + 20) p.x = -20;
+  });
+  ctx.globalAlpha = 1;
+  requestAnimationFrame(drawParticles);
+}
+drawParticles();
+
+/* ── SCROLL REVEAL ── */
+const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+revealEls.forEach(el => observer.observe(el));
+
+/* ── COUNTER ANIMATION ── */
+function animateCounter(el) {
+  const target = parseInt(el.getAttribute('data-count'));
+  let current = 0;
+  const step = Math.ceil(target / 60);
+  const timer = setInterval(() => {
+    current += step;
+    if(current >= target) { current = target; clearInterval(timer); }
+    el.textContent = current + (target === 1 ? '' : '+');
+  }, 30);
+}
+const counterObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) { animateCounter(e.target); counterObs.unobserve(e.target); }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-count]').forEach(el => counterObs.observe(el));
+
+/* ── MENU FILTER ── */
+function filterMenu(btn, cat) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.menu-card').forEach(card => {
+    const match = cat === 'all' || card.dataset.cat === cat;
+    card.style.display = match ? 'block' : 'none';
+    card.style.opacity = match ? '' : '0';
+    if(match) { card.style.animation = 'fadeInUp 0.4s ease both'; }
+  });
+}
+
+/* ── TOUCH: Tap to show back of menu card on mobile ── */
+const isTouchDevice = window.matchMedia('(hover: none)').matches;
+if (isTouchDevice) {
+  document.querySelectorAll('.menu-card').forEach(card => {
+    const back = card.querySelector('.card-back');
+    if (!back) return;
+    back.style.cssText = 'display:none;position:relative;transform:none;backface-visibility:visible;border-radius:0 0 16px 16px;border-top:1px solid rgba(212,175,55,0.2);flex-direction:column;align-items:center;padding:28px;text-align:center;';
+    card.addEventListener('click', () => {
+      const isOpen = back.style.display === 'flex';
+      back.style.display = isOpen ? 'none' : 'flex';
+      if (!isOpen) back.scrollIntoView({ behavior:'smooth', block:'nearest' });
+    });
+  });
+}
+
+/* ── SMOOTH ANCHOR SCROLL ── */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if(target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+</body>
+</html>
