@@ -56,57 +56,108 @@
   /* ═══════════ NAVIGATION ═══════════ */
   nav{
     position:fixed;top:0;left:0;right:0;z-index:200;
-    height:60px;padding:0 16px;
-    display:flex;align-items:center;justify-content:space-between;
+    height:54px;
+    display:flex;align-items:center;
+    padding:0 10px;
+    gap:8px;
     transition:background .3s,box-shadow .3s;
   }
-  nav.stuck{background:rgba(15,10,5,.95);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(212,175,55,.2)}
-  .nav-brand{display:flex;align-items:center;gap:9px}
-  .nav-logo-svg{width:36px;height:36px;flex-shrink:0;filter:drop-shadow(0 0 6px rgba(232,120,10,.4))}
-  .nav-brand-text{}
-  .nav-brand-text .t1{display:block;font-family:var(--fh);font-size:.72rem;line-height:1.2;background:linear-gradient(135deg,var(--gold),var(--saffron));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-  .nav-brand-text .t2{display:block;font-family:var(--fs);font-size:.5rem;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
-  .nav-right{display:flex;align-items:center;gap:10px}
-  .nav-wa{
-    display:flex;align-items:center;gap:6px;
-    background:var(--green);color:#fff;
-    font-family:var(--fs);font-size:.62rem;letter-spacing:1.5px;text-transform:uppercase;
-    padding:8px 14px;border-radius:30px;
-    box-shadow:0 3px 12px rgba(37,211,102,.35);
+  nav.stuck{
+    background:rgba(15,10,5,.97);
+    backdrop-filter:blur(18px);
+    box-shadow:0 1px 0 rgba(212,175,55,.2);
+  }
+
+  /* Brand / Logo */
+  .nav-brand{
+    display:flex;align-items:center;gap:7px;
+    flex-shrink:0;text-decoration:none;
+  }
+  .nav-logo-svg{
+    width:28px;height:28px;flex-shrink:0;
+    filter:drop-shadow(0 0 5px rgba(232,120,10,.4));
+  }
+  .nav-brand-text .t1{
+    display:block;font-family:var(--fh);font-size:.6rem;line-height:1.15;
+    background:linear-gradient(135deg,var(--gold),var(--saffron));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
     white-space:nowrap;
   }
-  .ham{display:flex;flex-direction:column;gap:5px;padding:4px;width:34px}
-  .ham span{display:block;height:2px;background:var(--cream);border-radius:2px;transition:all .3s}
-  .ham.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
-  .ham.open span:nth-child(2){opacity:0;transform:scaleX(0)}
-  .ham.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-  /* Desktop nav links */
- .nav-links-desk{
-  display: none !important;
-}
+  .nav-brand-text .t2{
+    display:block;font-family:var(--fs);font-size:.38rem;
+    letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;
+    white-space:nowrap;
+  }
 
-  /* ═══════════ FULLSCREEN MOBILE MENU ═══════════ */
-  .mob-menu{
-    position:fixed;inset:0;z-index:190;
-    background:rgba(15,10,5,.98);backdrop-filter:blur(20px);
-    display:flex;flex-direction:column;align-items:center;justify-content:center;
-    gap:8px;
-    transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);
+  /* Spacer pushes links to the right */
+  .nav-spacer{flex:1}
+
+  /* Nav links — scrollable strip on mobile */
+  .nav-links{
+    display:flex;align-items:center;
+    gap:0;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    flex-shrink:1;
+    min-width:0;
   }
-  .mob-menu.open{transform:translateX(0)}
-  .mob-menu a{
-    font-family:var(--fh);font-size:1.3rem;color:var(--cream);
-    padding:12px 32px;border-radius:8px;
-    transition:color .2s,background .2s;width:80%;text-align:center;
+  .nav-links::-webkit-scrollbar{display:none}
+  .nav-links a{
+    flex-shrink:0;
+    font-family:var(--fs);
+    font-size:.48rem;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    color:rgba(255,248,231,.65);
+    padding:6px 7px;
+    white-space:nowrap;
+    border-radius:4px;
+    transition:color .2s,background .2s;
+    text-decoration:none;
   }
-  .mob-menu a:hover,.mob-menu a:active{color:var(--gold);background:rgba(212,175,55,.08)}
-  .mob-menu .mob-wa{
-    margin-top:16px;
-    background:linear-gradient(135deg,var(--green),#1DA851);
-    color:#fff!important;font-family:var(--fs)!important;
-    font-size:.9rem!important;letter-spacing:2px;text-transform:uppercase;
-    padding:14px 36px!important;border-radius:50px;
-    box-shadow:0 6px 24px rgba(37,211,102,.4);
+  .nav-links a:hover,.nav-links a:active{
+    color:var(--gold);
+    background:rgba(212,175,55,.08);
+  }
+
+  /* hide old elements */
+  .nav-top,.nav-bottom,.nav-right,.ham,.mob-menu,.nav-links-desk,.nav-wa,.nav-sep,.nav-order{display:none!important}
+
+  /* ── 480px+: slightly bigger text ── */
+  @media(min-width:480px){
+    nav{padding:0 14px;gap:10px}
+    .nav-links a{font-size:.52rem;padding:6px 8px}
+    .nav-logo-svg{width:30px;height:30px}
+    .nav-brand-text .t1{font-size:.62rem}
+  }
+
+  /* ── 768px+: comfortable desktop ── */
+  @media(min-width:768px){
+    nav{height:58px;padding:0 28px;gap:16px}
+    .nav-links{gap:2px;overflow:visible}
+    .nav-links a{font-size:.6rem;letter-spacing:1.5px;padding:6px 12px}
+    .nav-logo-svg{width:34px;height:34px}
+    .nav-brand-text .t1{font-size:.72rem}
+    .nav-brand-text .t2{font-size:.42rem}
+  }
+
+  /* ── 1024px+: full spacious layout ── */
+  @media(min-width:1024px){
+    nav{height:62px;padding:0 48px;gap:20px}
+    .nav-links a{
+      font-size:.65rem;letter-spacing:2px;padding:7px 14px;
+      position:relative;
+    }
+    .nav-links a::after{
+      content:'';position:absolute;bottom:2px;left:14px;right:14px;
+      height:1px;background:var(--saffron);
+      transform:scaleX(0);transition:transform .25s;
+    }
+    .nav-links a:hover::after{transform:scaleX(1)}
+    .nav-logo-svg{width:38px;height:38px}
+    .nav-brand-text .t1{font-size:.78rem}
+    .nav-brand-text .t2{font-size:.45rem}
   }
 
   /* ═══════════ HERO ═══════════ */
@@ -129,7 +180,7 @@
   }
   .hero-content{
     position:relative;z-index:2;
-    padding:88px 20px 60px;
+    padding:80px 20px 60px;
     width:100%;max-width:640px;
   }
   .hero-badge{
@@ -455,6 +506,44 @@
   .map-box{border-radius:12px;overflow:hidden;border:1px solid rgba(212,175,55,.18);margin-top:24px}
   .map-box iframe{width:100%;height:260px;border:none;display:block;filter:sepia(.25) hue-rotate(180deg) saturate(1.2)}
 
+  /* ═══════════ HOW TO ORDER ═══════════ */
+  #how-to-order{background:var(--charcoal)}
+  .hto-steps{display:flex;flex-direction:column;gap:16px;margin-top:8px}
+  .hto-step{
+    display:flex;align-items:flex-start;gap:16px;
+    background:var(--smoke);
+    border:1px solid rgba(212,175,55,.12);
+    border-radius:14px;padding:18px 16px;
+    transition:border-color .25s;
+  }
+  .hto-step:active{border-color:rgba(212,175,55,.35)}
+  .hto-num{
+    flex-shrink:0;
+    width:38px;height:38px;border-radius:50%;
+    background:linear-gradient(135deg,var(--saffron),var(--gold));
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--fh);font-size:.85rem;color:var(--dark);font-weight:900;
+    box-shadow:0 4px 14px rgba(232,120,10,.35);
+  }
+  .hto-info h4{font-family:var(--fs);font-size:.88rem;color:var(--cream);margin-bottom:4px;letter-spacing:.5px}
+  .hto-info p{font-size:.8rem;line-height:1.6;color:var(--muted)}
+  .hto-info p strong{color:var(--saffron)}
+  .hto-cta{
+    margin-top:28px;
+    background:linear-gradient(135deg,rgba(37,211,102,.12),rgba(37,211,102,.06));
+    border:1px solid rgba(37,211,102,.3);
+    border-radius:14px;padding:20px 16px;text-align:center;
+  }
+  .hto-cta p{font-size:.85rem;color:rgba(255,248,231,.7);line-height:1.7;margin-bottom:14px}
+  .hto-cta p strong{color:#fff}
+
+  @media(min-width:768px){
+    .hto-steps{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  }
+  @media(min-width:1024px){
+    .hto-steps{grid-template-columns:repeat(3,1fr)}
+  }
+
   /* ═══════════ FOOTER ═══════════ */
   footer{background:var(--dark);border-top:1px solid rgba(212,175,55,.1);padding:40px 20px 28px}
   .footer-badge{display:flex;justify-content:center;margin-bottom:20px}
@@ -480,41 +569,6 @@
 
   /* ═══════════ DESKTOP UPGRADES (min 768px) ═══════════ */
   @media(min-width:768px){
-    nav{height:66px;padding:0 32px}
-    .nav-logo-svg{width:42px;height:42px}
-    .nav-brand-text .t1{
-    font-size: 0.6rem;
-  }
-    .nav-brand-text .t2{
-    font-size: 0.45rem;
-  }
-    .ham{display:none}
-    .nav-wa{
-    padding:6px 10px;
-    font-size:0.55rem;
-  }
-
-  .nav-right{
-    gap:6px;
-  }
-    .nav-links-desk{
-    display:flex !important;
-    gap:1.8rem;
-    align-items:center;
-  }
-    .nav-links-desk a{
-      font-family:var(--fs);font-size:.68rem;letter-spacing:2px;text-transform:uppercase;
-      color:rgba(255,248,231,.75);
-      transition:color .2s;position:relative;
-    }
-    .nav-links-desk a::after{
-      content:'';position:absolute;bottom:-4px;left:0;right:0;
-      height:1px;background:var(--saffron);
-      transform:scaleX(0);transition:transform .3s;
-    }
-    .nav-links-desk a:hover{color:var(--gold)}
-    .nav-links-desk a:hover::after{transform:scaleX(1)}
-
     .hero-content{padding:100px 48px 80px;max-width:660px}
     .hero-btns{flex-direction:row;width:auto}
     .btn-wa,.btn-ghost{width:auto}
@@ -591,27 +645,17 @@
   <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
 
-<!-- ▸ MOBILE MENU -->
-<div class="mob-menu" id="mobMenu">
-  <svg style="width:52px;height:52px;margin-bottom:4px;filter:drop-shadow(0 0 10px rgba(232,120,10,.5))" viewBox="0 0 80 80" fill="none">
-    <defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#D4AF37"/><stop offset="100%" stop-color="#E8780A"/></linearGradient><linearGradient id="mp" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#E8780A"/><stop offset="100%" stop-color="#7A3200"/></linearGradient></defs>
-    <circle cx="40" cy="40" r="38" stroke="url(#mg)" stroke-width="1.2" fill="rgba(15,10,5,.9)"/>
-    <rect x="37" y="26" width="6" height="5" rx="2.5" fill="url(#mg)"/>
-    <ellipse cx="40" cy="31" rx="16" ry="4.5" fill="#B06000" stroke="url(#mg)" stroke-width=".8"/>
-    <path d="M20 36 Q18 46 20 55 Q24 66 40 67 Q56 66 60 55 Q62 46 60 36 Q50 41 40 41 Q30 41 20 36Z" fill="url(#mp)" stroke="url(#mg)" stroke-width=".8"/>
-    <ellipse cx="40" cy="36" rx="20" ry="5.5" fill="#8B4000" stroke="url(#mg)" stroke-width=".8"/>
-  </svg>
-  <a href="https://wa.me/919000000000?text=Hi!%20I%20want%20to%20order%20from%20A%20New%20Biriyani%20Story%20%F0%9F%8D%9B" target="_blank" class="mob-wa">🛵 Order on WhatsApp</a>
-</div>
-
 <!-- ▸ NAV -->
 <nav id="nav">
   <a href="#hero" class="nav-brand">
     <svg class="nav-logo-svg" viewBox="0 0 80 80" fill="none">
-      <defs><linearGradient id="ng" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#D4AF37"/><stop offset="100%" stop-color="#E8780A"/></linearGradient><linearGradient id="np" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#E8780A"/><stop offset="100%" stop-color="#7A3200"/></linearGradient></defs>
+      <defs>
+        <linearGradient id="ng" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#D4AF37"/><stop offset="100%" stop-color="#E8780A"/></linearGradient>
+        <linearGradient id="np" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#E8780A"/><stop offset="100%" stop-color="#7A3200"/></linearGradient>
+      </defs>
       <circle cx="40" cy="40" r="38" stroke="url(#ng)" stroke-width="1.2" fill="rgba(15,10,5,.7)"/>
       <path d="M32 21 Q29 15 32 9" stroke="#D4AF37" stroke-width="1.3" fill="none" stroke-linecap="round" opacity=".8"/>
-      <path d="M40 18 Q37 11 40 5"  stroke="#E8780A" stroke-width="1.7" fill="none" stroke-linecap="round"/>
+      <path d="M40 18 Q37 11 40 5" stroke="#E8780A" stroke-width="1.7" fill="none" stroke-linecap="round"/>
       <path d="M48 21 Q51 15 48 9" stroke="#D4AF37" stroke-width="1.3" fill="none" stroke-linecap="round" opacity=".8"/>
       <rect x="37" y="26" width="6" height="5" rx="2.5" fill="url(#ng)"/>
       <ellipse cx="40" cy="31" rx="16" ry="4.5" fill="#B06000" stroke="url(#ng)" stroke-width=".8"/>
@@ -623,15 +667,16 @@
       <span class="t2">Cloud Kitchen · Tirupati</span>
     </div>
   </a>
-  <div class="nav-right">
-    <a class="nav-wa" href="https://wa.me/919000000000?text=Hi!%20I%20want%20to%20order%20from%20A%20New%20Biriyani%20Story%20%F0%9F%8D%9B" target="_blank">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      Order
-    </a>
-    <button class="ham" id="ham" aria-label="Menu" onclick="toggleMenu()">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
+
+  <div class="nav-spacer"></div>
+
+  <nav class="nav-links">
+    <a href="#story">Our Story</a>
+    <a href="#menu">Menu</a>
+    <a href="#how-to-order">How to Order</a>
+    <a href="#videos">Videos</a>
+    <a href="#contact">Contact</a>
+  </nav>
 </nav>
 
 <!-- ▸ HERO -->
@@ -964,6 +1009,66 @@
   </div><!-- /menu-grid -->
 </section>
 
+<!-- ▸ HOW TO ORDER -->
+<section id="how-to-order" class="sec">
+  <div class="sec-center rv">
+    <div class="sec-tag">Simple & Fast</div>
+    <h2 class="sec-title">How to <span>Order</span></h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="hto-steps">
+    <div class="hto-step rv">
+      <div class="hto-num">1</div>
+      <div class="hto-info">
+        <h4>📋 Browse the Menu</h4>
+        <p>Scroll through our menu above and pick your favourite dishes. Check the <strong>prices & Telugu names</strong> to know what you're craving.</p>
+      </div>
+    </div>
+    <div class="hto-step rv" style="transition-delay:.07s">
+      <div class="hto-num">2</div>
+      <div class="hto-info">
+        <h4>📲 Tap "Order" on Any Dish</h4>
+        <p>Hit the green <strong>Order</strong> button on any menu card — it opens WhatsApp with your item already filled in. No app download needed.</p>
+      </div>
+    </div>
+    <div class="hto-step rv" style="transition-delay:.14s">
+      <div class="hto-num">3</div>
+      <div class="hto-info">
+        <h4>💬 Send Your Message</h4>
+        <p>Just hit <strong>Send</strong> on WhatsApp. Want multiple items? Add them in one message — e.g. "2 Nizam Dum + 1 Suvarna Dum".</p>
+      </div>
+    </div>
+    <div class="hto-step rv" style="transition-delay:.21s">
+      <div class="hto-num">4</div>
+      <div class="hto-info">
+        <h4>📍 Share Your Location</h4>
+        <p>Send your <strong>delivery address</strong> or drop a WhatsApp live location. We deliver all over Tirupati — for free!</p>
+      </div>
+    </div>
+    <div class="hto-step rv" style="transition-delay:.28s">
+      <div class="hto-num">5</div>
+      <div class="hto-info">
+        <h4>✅ Confirm &amp; Relax</h4>
+        <p>We'll confirm your order and give you an <strong>estimated time</strong>. Freshly made, hot, and on its way to you.</p>
+      </div>
+    </div>
+    <div class="hto-step rv" style="transition-delay:.35s">
+      <div class="hto-num">6</div>
+      <div class="hto-info">
+        <h4>⏰ Bulk Orders? Plan Early</h4>
+        <p>For <strong>10+ servings or parties</strong>, please order at least 5 hours in advance so every plate gets the same love and care.</p>
+      </div>
+    </div>
+  </div>
+  <div class="hto-cta rv" style="transition-delay:.4s">
+    <p>It's that simple! No accounts, no apps, no hassle — just <strong>WhatsApp us</strong> and your biriyani is on the way 🛵</p>
+    <a class="btn-wa" href="https://wa.me/919000000000?text=Hi!%20I%20want%20to%20order%20from%20A%20New%20Biriyani%20Story%20%F0%9F%8D%9B" target="_blank">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Start Ordering Now
+    </a>
+  </div>
+</section>
+
 <!-- ▸ FREE DELIVERY -->
 <div class="delivery-band rv">
   <div class="del-icon">🛵</div>
@@ -1137,6 +1242,7 @@
   <nav class="footer-links">
     <a href="#story">Our Story</a>
     <a href="#menu">Menu</a>
+    <a href="#how-to-order">How to Order</a>
     <a href="#videos">Videos</a>
     <a href="#why">Why Us</a>
     <a href="#contact">Contact</a>
@@ -1158,24 +1264,6 @@ window.addEventListener('load',()=>{
 window.addEventListener('scroll',()=>{
   document.getElementById('nav').classList.toggle('stuck',window.scrollY>30);
 },{passive:true});
-
-/* ─── MOBILE MENU ─── */
-function toggleMenu(){
-  const m=document.getElementById('mobMenu');
-  const h=document.getElementById('ham');
-  const open=m.classList.toggle('open');
-  h.classList.toggle('open',open);
-  document.body.style.overflow=open?'hidden':'';
-}
-function closeMenu(){
-  document.getElementById('mobMenu').classList.remove('open');
-  document.getElementById('ham').classList.remove('open');
-  document.body.style.overflow='';
-}
-// close on outside tap
-document.getElementById('mobMenu').addEventListener('click',e=>{
-  if(e.target===e.currentTarget)closeMenu();
-});
 
 /* ─── SCROLL REVEAL ─── */
 const io=new IntersectionObserver(entries=>{
